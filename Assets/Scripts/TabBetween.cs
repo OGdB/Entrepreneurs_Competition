@@ -1,6 +1,5 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
 [RequireComponent(typeof(TMP_InputField))]
 public class TabBetween : MonoBehaviour
