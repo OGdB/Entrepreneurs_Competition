@@ -47,53 +47,52 @@ public class LeaderboardManager : MonoBehaviour
 
         IEnumerator LeaderboardCR()
         {
-            using (var request = UnityWebRequest.Get(DBManager.phpFolderURL + "leaderboard.php"))
+            using var request = UnityWebRequest.Get(DBManager.phpFolderURL + "leaderboard.php");
+            
+            DownloadHandler handler = new DownloadHandlerBuffer();
+            request.downloadHandler = handler;
+
+            yield return request.SendWebRequest();
+
+            if (handler.text.StartsWith("0"))
             {
-                DownloadHandler handler = new DownloadHandlerBuffer();
-                request.downloadHandler = handler;
+                string result = handler.text.Trim();
 
-                yield return request.SendWebRequest();
+                // Dissect the result through its tabs.
+                string[] results = result.Split("\t");
 
-                if (handler.text.StartsWith("0"))
+                if (results.Length == 1) // Query succesful, but no top 3 ranking exists yet
                 {
-                    string result = handler.text.Trim();
-
-                    // Dissect the result through its tabs.
-                    string[] results = result.Split("\t");
-
-                    if (results.Length == 1) // Query succesful, but no top 3 ranking exists yet
-                    {
-                        ClearRankings();
-                        NoScoreText.SetActive(true);
-                    }
-                    else
-                        NoScoreText.SetActive(false);
-
-                    if (results.Length >= 2)
-                    {
-                        rankingOneNumber.SetText("1.");
-                        rankingOneName.SetText(results[1]);
-                        rankingOneScore.SetText(results[2]);
-                    }
-
-                    if (results.Length >= 4)
-                    {
-                        rankingTwoNumber.SetText("2.");
-                        rankingTwoName.SetText(results[3]);
-                        rankingTwoScore.SetText(results[4]);
-                    }
-
-                    if (results.Length >= 6)
-                    {
-                        rankingThreeNumber.SetText("3.");
-                        rankingThreeName.SetText(results[5]);
-                        rankingThreeScore.SetText(results[6]);
-                    }
+                    ClearRankings();
+                    NoScoreText.SetActive(true);
                 }
                 else
+                    NoScoreText.SetActive(false);
+
+                if (results.Length >= 2)
                 {
-                    print($"Something went wrong!\nError: {handler.text}");
+                    rankingOneNumber.SetText("1.");
+                    rankingOneName.SetText(results[1]);
+                    rankingOneScore.SetText(results[2]);
                 }
+
+                if (results.Length >= 4)
+                {
+                    rankingTwoNumber.SetText("2.");
+                    rankingTwoName.SetText(results[3]);
+                    rankingTwoScore.SetText(results[4]);
+                }
+
+                if (results.Length >= 6)
+                {
+                    rankingThreeNumber.SetText("3.");
+                    rankingThreeName.SetText(results[5]);
+                    rankingThreeScore.SetText(results[6]);
+                }
+            }
+            else
+            {
+                print($"Something went wrong!\nError: {handler.text}");
             }
         }
     }

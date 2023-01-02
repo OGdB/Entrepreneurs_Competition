@@ -9,6 +9,7 @@ public class Registration : MonoBehaviour
 {
     public TMP_InputField nameField;
     public TMP_InputField classField;
+    public TMP_InputField groupField;
     public TMP_InputField passwordField;
     [Space(5)]
     public Button submitButton;
@@ -22,10 +23,13 @@ public class Registration : MonoBehaviour
 
         IEnumerator RegisterCR()
         {
-            List<IMultipartFormSection> formData = new();
-            formData.Add(new MultipartFormDataSection(name: "name", data: nameField.text));
-            formData.Add(new MultipartFormDataSection(name: "class", data: classField.text));
-            formData.Add(new MultipartFormDataSection(name: "password", data: passwordField.text));
+            List<IMultipartFormSection> formData = new()
+            {
+                new MultipartFormDataSection(name: "name", data: nameField.text),
+                new MultipartFormDataSection(name: "class", data: classField.text),
+                new MultipartFormDataSection(name: "group", data: groupField.text),
+                new MultipartFormDataSection(name: "password", data: passwordField.text)
+            };
 
             using (var request = UnityWebRequest.Post(DBManager.phpFolderURL + "register.php", formData))
             {
