@@ -18,39 +18,40 @@ public class LoginManager : MonoBehaviour
 
         IEnumerator LoginCR()
         {
-            List<IMultipartFormSection> formData = new();
-            formData.Add(new MultipartFormDataSection(name: "name", data: nameField.text));
-            formData.Add(new MultipartFormDataSection(name: "password", data: passwordField.text));
-
-            using (var request = UnityWebRequest.Post(DBManager.phpFolderURL + "login.php", formData))
+            List<IMultipartFormSection> formData = new()
             {
-                DownloadHandlerBuffer handler = new();
-                request.downloadHandler = handler;
+                new MultipartFormDataSection(name: "name", data: nameField.text),
+                new MultipartFormDataSection(name: "password", data: passwordField.text)
+            };
 
-                yield return request.SendWebRequest();
+            using var request = UnityWebRequest.Post(DBManager.phpFolderURL + "login.php", formData);
 
-                if (handler.text.StartsWith("0"))
-                {
-                    string text = handler.text;
-                    string[] splitText = text.Split("\t");
+            DownloadHandlerBuffer handler = new();
+            request.downloadHandler = handler;
 
-                    string classNumber = splitText[1];
-                    string groupName = "No group";
-                    if (splitText[2].Length > 0)
-                        groupName = splitText[2];
+            yield return request.SendWebRequest();
 
-                    int score = -1;
-                    if (splitText[3].Length > 0)
-                        score = int.Parse(splitText[3]);
+            if (handler.text.StartsWith("0"))
+            {
+                string text = handler.text;
+                string[] splitText = text.Split("\t");
 
-                    DBManager.LogIn(nameField.text, classNumber, score, groupName);
+                string classNumber = splitText[1];
+                string groupName = "No group";
+                if (splitText[2].Length > 0)
+                    groupName = splitText[2];
 
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-                }
-                else
-                {
-                    Debug.Log($"User login failed. Error #{handler.text}");
-                }
+                int score = -1;
+                if (splitText[3].Length > 0)
+                    score = int.Parse(splitText[3]);
+
+                DBManager.LogIn(nameField.text, classNumber, score, groupName);
+
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+            else
+            {
+                Debug.Log($"User login failed. Error #{handler.text}");
             }
         }
     }

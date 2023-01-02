@@ -111,23 +111,23 @@ public class GameManager : MonoBehaviour
         {
             string scoreString = DBManager.Score.ToString();
 
-            List<IMultipartFormSection> formData = new();
-
-            formData.Add(new MultipartFormDataSection(name: "groupname", data: DBManager.GroupName));
-            formData.Add(new MultipartFormDataSection(name: "score", data: scoreString));
-
-            using (var request = UnityWebRequest.Post(DBManager.phpFolderURL + "savedata.php", formData))
+            List<IMultipartFormSection> formData = new()
             {
-                yield return request.SendWebRequest();
+                new MultipartFormDataSection(name: "groupname", data: DBManager.GroupName),
+                new MultipartFormDataSection(name: "score", data: scoreString)
+            };
 
-                if (request.downloadHandler.text.StartsWith("0"))
-                {
-                    Debug.Log("Game saved!");
-                }
-                else
-                {
-                    Debug.Log($"Save failed, Error #{request.downloadHandler.text}");
-                }
+            using var request = UnityWebRequest.Post(DBManager.phpFolderURL + "savedata.php", formData);
+
+            yield return request.SendWebRequest();
+
+            if (request.downloadHandler.text.StartsWith("0"))
+            {
+                Debug.Log("Game saved!");
+            }
+            else
+            {
+                Debug.Log($"Save failed, Error #{request.downloadHandler.text}");
             }
         }
     }
