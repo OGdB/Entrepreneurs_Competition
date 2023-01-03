@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Unity.Netcode.Samples
@@ -8,13 +9,34 @@ namespace Unity.Netcode.Samples
     /// </summary>
     public class BootstrapManager : MonoBehaviour
     {
-        int secretInt = 0;
+        public bool autoStart = false;
+        public float autoStartTime = 5f;
+
+        private NetworkManager networkManager;
+        private int secretButtonClickCount = 0;
+
+        private IEnumerator Start()
+        {
+            networkManager = NetworkManager.Singleton;
+
+#if UNITY_EDITOR
+            networkManager.StartHost();
+            yield break;
+#endif
+            yield return new WaitForSeconds(autoStartTime);
+
+            if (!networkManager.IsHost && autoStart)
+            {
+                networkManager.StartClient();
+                print("Started as client");
+            }
+        }
+
         public void SecretButtonClicked()
         {
-            secretInt++;
-            if (secretInt == 5)
+            secretButtonClickCount++;
+            if (secretButtonClickCount == 5 && !networkManager.IsHost)
             {
-                var networkManager = NetworkManager.Singleton;
                 networkManager.StartHost();
             }
         }
@@ -23,7 +45,6 @@ namespace Unity.Netcode.Samples
         {
             GUILayout.BeginArea(new Rect(10, 10, 300, 300));
 
-            var networkManager = NetworkManager.Singleton;
             if (!networkManager.IsClient && !networkManager.IsServer)
             {
 /*                if (GUILayout.Button("Host"))
@@ -43,7 +64,8 @@ namespace Unity.Netcode.Samples
             }
             else
             {
-                GUILayout.Label($"Mode: {(networkManager.IsHost ? "Host" : networkManager.IsServer ? "Server" : "Client")}");
+                if (networkManager.IsHost)
+                    GUILayout.Label("Mode: Host");
 
                 /*// "Random Teleport" button will only be shown to clients
                 if (networkManager.IsClient)
