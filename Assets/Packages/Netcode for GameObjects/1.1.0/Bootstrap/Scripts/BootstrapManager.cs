@@ -18,6 +18,8 @@ namespace Unity.Netcode.Samples
         private IEnumerator Start()
         {
             networkManager = NetworkManager.Singleton;
+            
+            if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient) yield break;
 
 #if UNITY_EDITOR
             networkManager.StartHost();

@@ -1,9 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System.Collections;
-using UnityEngine.Networking;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Registration : MonoBehaviour
 {
@@ -41,10 +41,13 @@ public class Registration : MonoBehaviour
                 if (handler.text.StartsWith("0"))
                 {
                     Debug.Log("User created succesfully!");
-                    
-                    DBManager.UserName = nameField.text;
-                    DBManager.ClassNumber = classField.text;
-                    DBManager.Score = 0;
+
+                    string userName = nameField.text;
+                    string classNumber = classField.text;
+                    string groupName = groupField.text;
+                    int score = 0;
+
+                    DBManager.LogIn(userName, classNumber, score, groupName);
 
                     UnityEngine.SceneManagement.SceneManager.LoadScene(0);
                 }

@@ -13,10 +13,6 @@ public class GameManager : MonoBehaviour
     private Group thisGroup;
 
     [Header("Assignables"), SerializeField]
-    private TextMeshProUGUI playerText;
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
-    [SerializeField]
     private TextMeshProUGUI groupNameText;
     public BuildingUpgradeOrder Order { get => order; }
     [SerializeField]
@@ -63,9 +59,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                playerText.SetText($"Player: {DBManager.UserName}");
                 groupNameText.SetText(DBManager.GroupName);
-                UpdateScore();
             }
         }
 
@@ -139,10 +133,8 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(int amount)
     {
         DBManager.Score += amount;
-        UpdateScore();
     }
 
-    private void UpdateScore() => scoreText.SetText($"Score: {DBManager.Score}");
     public void ExitGame()
     {
 
