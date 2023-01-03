@@ -5,10 +5,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class GoToScene : MonoBehaviour
 {
-    public int sceneIndex = 0;
+    public string sceneName;
 
     private void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(sceneIndex));
+        GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(sceneName));
     }
 }

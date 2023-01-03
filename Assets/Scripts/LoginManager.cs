@@ -14,6 +14,24 @@ public class LoginManager : MonoBehaviour
 
     public void CallLogin()
     {
+        // Is player name in namefield already lggged in?
+        if (Players.Singleton.Group1 != null)
+        {
+            if (Players.Singleton.Group1.Contains(nameField.text))
+            {
+                print("This user is already logged in!");
+                return;
+            }
+        }
+        else if (Players.Singleton.Group2 != null)
+        {
+            if (Players.Singleton.Group2.Contains(nameField.text))
+            {
+                print("This user is already logged in!");
+                return;
+            }
+        }
+
         _ = StartCoroutine(LoginCR());
 
         IEnumerator LoginCR()
@@ -47,7 +65,7 @@ public class LoginManager : MonoBehaviour
 
                 DBManager.LogIn(nameField.text, classNumber, score, groupName);
 
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
             }
             else
             {

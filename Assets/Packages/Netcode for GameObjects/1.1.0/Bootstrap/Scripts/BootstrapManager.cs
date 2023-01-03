@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Unity.Netcode.Samples
 {
@@ -9,11 +10,13 @@ namespace Unity.Netcode.Samples
     /// </summary>
     public class BootstrapManager : MonoBehaviour
     {
+        public static BootstrapManager Singleton;
+
         public bool autoStart = false;
+        public bool autoClient = true;
         public float autoStartTime = 5f;
 
         private NetworkManager networkManager;
-        private int secretButtonClickCount = 0;
 
         private IEnumerator Start()
         {
@@ -22,24 +25,20 @@ namespace Unity.Netcode.Samples
             if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient) yield break;
 
 #if UNITY_EDITOR
-            networkManager.StartHost();
-            yield break;
+            if (autoClient)
+            {
+                networkManager.StartHost();
+                SceneManager.LoadScene(1);
+                yield break;
+            }
 #endif
             yield return new WaitForSeconds(autoStartTime);
 
             if (!networkManager.IsHost && autoStart)
             {
                 networkManager.StartClient();
+                SceneManager.LoadScene(1);
                 print("Started as client");
-            }
-        }
-
-        public void SecretButtonClicked()
-        {
-            secretButtonClickCount++;
-            if (secretButtonClickCount == 5 && !networkManager.IsHost)
-            {
-                networkManager.StartHost();
             }
         }
 
@@ -49,20 +48,22 @@ namespace Unity.Netcode.Samples
 
             if (!networkManager.IsClient && !networkManager.IsServer)
             {
-/*                if (GUILayout.Button("Host"))
+                if (GUILayout.Button("Host"))
                 {
                     networkManager.StartHost();
-                }*/
+                    SceneManager.LoadScene(1);
+                }
 
                 if (GUILayout.Button("Client"))
                 {
                     networkManager.StartClient();
+                    SceneManager.LoadScene(1);
                 }
 
-/*                if (GUILayout.Button("Server"))
-                {
-                    networkManager.StartServer();
-                }*/
+                /*                if (GUILayout.Button("Server"))
+                                {
+                                    networkManager.StartServer();
+                                }*/
             }
             else
             {

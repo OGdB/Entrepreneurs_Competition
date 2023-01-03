@@ -5,6 +5,7 @@ public static class DBManager
     public static string UserName;
     public static string ClassNumber;
     public static string GroupName;
+    public static int GroupInt = 0;
     public static int Score = -1;
 
     // Logged in if there is an username.
@@ -19,6 +20,12 @@ public static class DBManager
         ClassNumber = classNumber;
         GroupName = groupName;
         Score = score;
+
+        if (groupName == "Group1")
+            GroupInt = 1;
+        else if (groupName == "Group2")
+            GroupInt = 2;
+
 
         OnLogin?.Invoke();
     }

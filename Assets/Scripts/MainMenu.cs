@@ -31,19 +31,19 @@ public class MainMenu : MonoBehaviour
 
     public void GoToRegisterScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Register Menu");
     }
     public void GoToLoginScene()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("Login Menu");
     }
     public void GoToGameScene()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("City");
     }
     public void GoToLeaderboard()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene("Leaderboard");
     }
 
     public void LogOut()

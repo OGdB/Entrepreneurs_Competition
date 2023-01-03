@@ -49,7 +49,7 @@ public class Registration : MonoBehaviour
 
                     DBManager.LogIn(userName, classNumber, score, groupName);
 
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
                 }
                 else
                 {

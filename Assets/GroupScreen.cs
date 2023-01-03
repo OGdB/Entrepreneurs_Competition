@@ -8,11 +8,12 @@ public class GroupScreen : MonoBehaviour
     private void OnEnable()
     {
         UpdateGroupScreen();
+        print(DBManager.GroupInt);
     }
 
     private void UpdateGroupScreen()
     {
-        int playerGroup = Players.playerGroup;
+        int playerGroup = DBManager.GroupInt;
 
         InstantiateGroupOverviewPlayerPrefab(DBManager.UserName);
 

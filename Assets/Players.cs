@@ -6,22 +6,26 @@ public class Players : NetworkBehaviour
 {
     public static Players Singleton;
 
-    public NetworkList<FixedString32Bytes> Group1 { get => group1; private set => group1 = value; }
-    private NetworkList<FixedString32Bytes> group1;
-    public List<string> testGroup1List = new();
+    public NetworkList<FixedString32Bytes> Group1;
+    public List<string> group1 = new();
 
-    public NetworkList<FixedString32Bytes> Group2 { get => group2; private set => group2 = value; }
-    private NetworkList<FixedString32Bytes> group2;
-    public List<string> testGroup2List = new();
-
-    public static int playerGroup = 0;  // The group this player belongs to.
-
+    public NetworkList<FixedString32Bytes> Group2;
+    public List<string> group2 = new();
 
     private void Awake()
     {
-        if (Singleton)
+            Group1 = new NetworkList<FixedString32Bytes>(
+    readPerm: NetworkVariableReadPermission.Everyone,
+    writePerm: NetworkVariableWritePermission.Owner
+);
+            Group2 = new NetworkList<FixedString32Bytes>(
+                readPerm: NetworkVariableReadPermission.Everyone,
+                writePerm: NetworkVariableWritePermission.Owner);
+
+        if (Singleton != null)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
@@ -29,74 +33,81 @@ public class Players : NetworkBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        Group1 = new NetworkList<FixedString32Bytes>();
-        Group2 = new NetworkList<FixedString32Bytes>();
-    }
+        //GetComponent<NetworkObject>().Spawn();
 
-    private void OnEnable()
-    {
         DBManager.OnLogin += OnLogin;
 
-        UpdateTestList();
-    }
-    private void OnDisable()
-    {
-        DBManager.OnLogin -= OnLogin;
     }
 
-    private void UpdateTestList()
+    private void UpdateSerializedList()
     {
         // Group 1
-        testGroup1List.Clear();
+        group1.Clear();
         string prettyString = "Group 1: ";
 
         for (int i = 0; i < Group1.Count; i++)
         {
+            print("Add to group 1");
+
             var id = Group1[i];
 
-            testGroup1List.Add(id.ToString());
+            group1.Add(id.ToString());
             prettyString += id;
 
-            if (i+1 <= Group1.Count)
+            if (i + 1 <= Group1.Count)
                 prettyString+= ", ";
         }
 
 
         // Group 2
-        testGroup2List.Clear();
+        group2.Clear();
         prettyString = "Group 2: ";
 
         for (int i = 0; i < Group2.Count; i++)
         {
             var id = Group2[i];
 
-            testGroup2List.Add(id.ToString());
+            group2.Add(id.ToString());
             prettyString += id;
 
             if (i + 1 <= Group2.Count)
                 prettyString += ", ";
         }
     }
+/*
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
 
+        DBManager.OnLogin += OnLogin;
+    }
+*/
+    /// <summary>
+    /// Let the SERVER put the user in the correct group Networklist, which keeps the groups up for all connected clients.
+    /// </summary>
     private void OnLogin()
     {
-        OnLoginServerRpc(DBManager.UserName, DBManager.GroupName);
+        OnLoginServerRpc(DBManager.UserName, DBManager.GroupInt);
     }
+
     [ServerRpc(RequireOwnership = false)]
-    private void OnLoginServerRpc(string username, string group, ServerRpcParams serverParams = default)
+    private void OnLoginServerRpc(string username, int group)
     {
-        if (group == "Group1")
+        if (group == 1)
         {
-            Group1.Add(username);
-            playerGroup = 1;
-
+            Group1.Add((FixedString32Bytes)username);
         }
-        else if (group == "Group2")
+        else if (group == 2)
         {
-            Group2.Add(username);
-            playerGroup = 2;
+            Group2.Add((FixedString32Bytes)username);
         }
 
-        UpdateTestList();
+        UpdateSerializedListsClientRpc();
+    }
+
+    [ClientRpc]
+    private void UpdateSerializedListsClientRpc()
+    {
+        UpdateSerializedList();
     }
 }
