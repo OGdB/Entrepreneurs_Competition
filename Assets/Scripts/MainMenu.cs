@@ -9,12 +9,9 @@ public class MainMenu : MonoBehaviour
     public Button registerButton;
     public Button loginButton;
     public Button playButton;
-    public Button logoutButton;
+    //public Button logoutButton;
 
-    private void OnEnable()
-    {
-        SetUI();
-    }
+    private void OnEnable() => SetUI();
 
     private void SetUI()
     {
@@ -23,28 +20,16 @@ public class MainMenu : MonoBehaviour
         else
             playerDisplay.SetText("No user logged in");
 
-        loginButton.interactable = !DBManager.LoggedIn;
-        registerButton.interactable = !DBManager.LoggedIn;
+        loginButton.gameObject.SetActive(!DBManager.LoggedIn);
+        registerButton.gameObject.SetActive(!DBManager.LoggedIn);
         playButton.interactable = DBManager.LoggedIn;
-        logoutButton.interactable = DBManager.LoggedIn;
+        //logoutButton.interactable = DBManager.LoggedIn;
     }
 
-    public void GoToRegisterScene()
-    {
-        SceneManager.LoadScene("Register Menu");
-    }
-    public void GoToLoginScene()
-    {
-        SceneManager.LoadScene("Login Menu");
-    }
-    public void GoToGameScene()
-    {
-        SceneManager.LoadScene("City");
-    }
-    public void GoToLeaderboard()
-    {
-        SceneManager.LoadScene("Leaderboard");
-    }
+    public void GoToRegisterScene() => SceneManager.LoadScene("Register Menu");
+    public void GoToLoginScene() => SceneManager.LoadScene("Login Menu");
+    public void GoToGameScene() => SceneManager.LoadScene("City");
+    public void GoToLeaderboard() => SceneManager.LoadScene("Leaderboard");
 
     public void LogOut()
     {

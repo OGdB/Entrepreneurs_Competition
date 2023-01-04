@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Unity.Netcode.Samples
 {
@@ -10,6 +11,7 @@ namespace Unity.Netcode.Samples
     {
         public static BootstrapManager Singleton;
 
+        public bool autoClient = false;
         public bool autoHost = true;
         public bool autoServer = false;
 
@@ -22,16 +24,21 @@ namespace Unity.Netcode.Samples
             if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer) return;
 
 #if UNITY_EDITOR
+            if (autoClient)
+            {
+                networkManager.StartClient();
+                SceneManager.LoadScene(1);
+            }
             if (autoHost)
             {
                 networkManager.StartHost();
-                //SceneManager.LoadScene(1);
+                SceneManager.LoadScene(1);
                 return;
             }
             if (autoServer)
             {
                 networkManager.StartServer();
-                //SceneManager.LoadScene(1);
+                SceneManager.LoadScene(1);
                 return;
             }
 #endif
@@ -46,41 +53,19 @@ namespace Unity.Netcode.Samples
                 if (GUILayout.Button("Host"))
                 {
                     networkManager.StartHost();
-                    //SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(1);
                 }
 
                 if (GUILayout.Button("Client"))
                 {
                     networkManager.StartClient();
-                    //SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(1);
                 }
-
-                /*                if (GUILayout.Button("Server"))
-                                {
-                                    networkManager.StartServer();
-                                }*/
             }
             else
             {
                 if (networkManager.IsHost)
                     GUILayout.Label("Mode: Host");
-
-                /*// "Random Teleport" button will only be shown to clients
-                if (networkManager.IsClient)
-                {
-                    if (GUILayout.Button("Random Teleport"))
-                    {
-                        if (networkManager.LocalClient != null)
-                        {
-                            // Get `BootstrapPlayer` component from the player's `PlayerObject`
-                            if (networkManager.LocalClient.PlayerObject.TryGetComponent(out BootstrapPlayer bootstrapPlayer))
-                            {
-                                // Invoke a `ServerRpc` from client-side to teleport player to a random position on the server-side
-                                bootstrapPlayer.RandomTeleportServerRpc();
-                            }
-                        }
-                    }
-                }*/
             }
 
             GUILayout.EndArea();

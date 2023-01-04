@@ -17,18 +17,24 @@ public class LoginManager : MonoBehaviour
         // Is player name in namefield already lggged in?
         if (PlayerManager.Singleton.Group1 != null)
         {
-            if (PlayerManager.Singleton.Group1.Contains(nameField.text))
+            foreach (var member in PlayerManager.Singleton.Group1)
             {
-                print("This user is already logged in!");
-                return;
+                if (member.name == nameField.text)
+                {
+                    print("This user is already logged in!");
+                    return;
+                }
             }
         }
-        else if (PlayerManager.Singleton.Group2 != null)
+        if (PlayerManager.Singleton.Group2 != null)
         {
-            if (PlayerManager.Singleton.Group2.Contains(nameField.text))
+            foreach (var member in PlayerManager.Singleton.Group2)
             {
-                print("This user is already logged in!");
-                return;
+                if (member.name == nameField.text)
+                {
+                    print("This user is already logged in!");
+                    return;
+                }
             }
         }
 

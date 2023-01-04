@@ -26,11 +26,11 @@ public class GroupScreen : MonoBehaviour
             AddMembersToOverview(PlayerManager.Singleton.Group2);
         }
 
-        void AddMembersToOverview(Unity.Netcode.NetworkList<Unity.Collections.FixedString32Bytes> group)
+        void AddMembersToOverview(Unity.Netcode.NetworkList<PlayerData> group)
         {
             for (int i = 0; i < group.Count; i++)
             {
-                string playerName = group[i].ToString();
+                string playerName = group[i].name.ToString();
 
                 if (playerName == DBManager.UserName) continue;
 

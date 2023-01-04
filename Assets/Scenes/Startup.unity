@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Players Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 9092759404840323365, guid: 9f03c19b9798a4a4e8c8b76e34b3f8af, type: 3}
+      propertyPath: group1.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f03c19b9798a4a4e8c8b76e34b3f8af, type: 3}
 --- !u!1 &598116660
@@ -193,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 598116661}
-  - component: {fileID: 598116662}
+  - component: {fileID: 598116663}
   m_Layer: 0
   m_Name: Startup Manager
   m_TagString: Untagged
@@ -216,7 +220,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &598116662
+--- !u!114 &598116663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,9 +229,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 598116660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be6b18341daf4e74a9e4612fe95b044a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fed568ebf6c14b11928f16219b5675b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoClient: 0
+  autoHost: 0
+  autoServer: 0
 --- !u!1 &1025737663
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,11 +244,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1025737667}
-  - component: {fileID: 1025737666}
   - component: {fileID: 1025737665}
   - component: {fileID: 1025737664}
   m_Layer: 0
-  m_Name: BootstrapManager
+  m_Name: Network Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,20 +324,6 @@ MonoBehaviour:
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
     EnableNetworkLogs: 1
---- !u!114 &1025737666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025737663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fed568ebf6c14b11928f16219b5675b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoHost: 1
-  autoServer: 0
 --- !u!4 &1025737667
 Transform:
   m_ObjectHideFlags: 0
