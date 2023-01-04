@@ -11,7 +11,7 @@ public static class DBManager
     // Logged in if there is an username.
     public static bool LoggedIn { get { return UserName != null; } }
 
-    public delegate void Login();
+    public delegate void Login(string username);
     public static Login OnLogin;
 
     public static void LogIn(string name, string classNumber, int score = 0, string groupName = default)
@@ -27,7 +27,7 @@ public static class DBManager
             GroupInt = 2;
 
 
-        OnLogin?.Invoke();
+        OnLogin?.Invoke(DBManager.UserName);
     }
 
     public static void LogOut()

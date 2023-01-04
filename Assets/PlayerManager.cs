@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 
-public class Players : NetworkBehaviour
+public class PlayerManager : NetworkBehaviour
 {
-    public static Players Singleton;
+    public static PlayerManager Singleton;
 
     public NetworkList<FixedString32Bytes> Group1;
     public List<string> group1 = new();
@@ -14,13 +14,14 @@ public class Players : NetworkBehaviour
 
     private void Awake()
     {
-            Group1 = new NetworkList<FixedString32Bytes>(
-    readPerm: NetworkVariableReadPermission.Everyone,
-    writePerm: NetworkVariableWritePermission.Owner
+        Group1 = new NetworkList<FixedString32Bytes>(
+readPerm: NetworkVariableReadPermission.Everyone,
+writePerm: NetworkVariableWritePermission.Server
 );
-            Group2 = new NetworkList<FixedString32Bytes>(
-                readPerm: NetworkVariableReadPermission.Everyone,
-                writePerm: NetworkVariableWritePermission.Owner);
+        Group2 = new NetworkList<FixedString32Bytes>(
+            readPerm: NetworkVariableReadPermission.Everyone,
+            writePerm: NetworkVariableWritePermission.Server
+            );
 
         if (Singleton != null)
         {
@@ -85,9 +86,9 @@ public class Players : NetworkBehaviour
     /// <summary>
     /// Let the SERVER put the user in the correct group Networklist, which keeps the groups up for all connected clients.
     /// </summary>
-    private void OnLogin()
+    private void OnLogin(string uname)
     {
-        OnLoginServerRpc(DBManager.UserName, DBManager.GroupInt);
+        OnLoginServerRpc(uname, DBManager.GroupInt);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -101,6 +102,8 @@ public class Players : NetworkBehaviour
         {
             Group2.Add((FixedString32Bytes)username);
         }
+
+        UpdateSerializedList();
 
         UpdateSerializedListsClientRpc();
     }

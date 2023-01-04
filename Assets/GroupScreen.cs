@@ -19,11 +19,11 @@ public class GroupScreen : MonoBehaviour
 
         if (playerGroup == 1)
         {
-            AddMembersToOverview(Players.Singleton.Group1);
+            AddMembersToOverview(PlayerManager.Singleton.Group1);
         }
         else if (playerGroup == 2)
         {
-            AddMembersToOverview(Players.Singleton.Group2);
+            AddMembersToOverview(PlayerManager.Singleton.Group2);
         }
 
         void AddMembersToOverview(Unity.Netcode.NetworkList<Unity.Collections.FixedString32Bytes> group)

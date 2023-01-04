@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fed568ebf6c14b11928f16219b5675b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoStart: 0
-  autoClient: 1
+  autoClient: 0
+  autoServer: 1
   autoStartTime: 5
 --- !u!4 &1025737667
 Transform:

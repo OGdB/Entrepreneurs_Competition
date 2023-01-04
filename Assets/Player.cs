@@ -18,17 +18,26 @@ public class Player : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        
         DontDestroyOnLoad(gameObject);
-        id = (int)NetworkManager.LocalClientId;
+        
+        id = (int)OwnerClientId;
 
         if (IsLocalPlayer)
-            DBManager.OnLogin += OnLogin;
+            DBManager.OnLogin += OnLoginServerRpc;
     }
-
-    private void OnLogin()
+    [ServerRpc(RequireOwnership = false)]
+    private void OnLoginServerRpc(string username)
     {
-        username = DBManager.UserName;
-        name = DBManager.UserName;
+        OnLoginClientRpc(username);
+        this.username = username;
+        name = username;
+    }
+    [ClientRpc]
+    private void OnLoginClientRpc(string uname)
+    {
+        username = uname;
+        name = uname;
     }
     
 }

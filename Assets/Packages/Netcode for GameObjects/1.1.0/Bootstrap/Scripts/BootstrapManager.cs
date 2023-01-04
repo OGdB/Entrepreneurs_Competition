@@ -12,34 +12,32 @@ namespace Unity.Netcode.Samples
     {
         public static BootstrapManager Singleton;
 
-        public bool autoStart = false;
         public bool autoClient = true;
+        public bool autoServer = false;
         public float autoStartTime = 5f;
 
         private NetworkManager networkManager;
 
-        private IEnumerator Start()
+        private void Start()
         {
             networkManager = NetworkManager.Singleton;
-            
-            if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient) yield break;
+
+            if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer) return;
 
 #if UNITY_EDITOR
             if (autoClient)
             {
                 networkManager.StartHost();
                 SceneManager.LoadScene(1);
-                yield break;
+                return;
+            }
+            if (autoServer)
+            {
+                networkManager.StartServer();
+                SceneManager.LoadScene(1);
+                return;
             }
 #endif
-            yield return new WaitForSeconds(autoStartTime);
-
-            if (!networkManager.IsHost && autoStart)
-            {
-                networkManager.StartClient();
-                SceneManager.LoadScene(1);
-                print("Started as client");
-            }
         }
 
         private void OnGUI()
