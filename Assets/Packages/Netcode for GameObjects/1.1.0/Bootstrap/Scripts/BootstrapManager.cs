@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Unity.Netcode.Samples
 {
@@ -12,9 +10,8 @@ namespace Unity.Netcode.Samples
     {
         public static BootstrapManager Singleton;
 
-        public bool autoClient = true;
+        public bool autoHost = true;
         public bool autoServer = false;
-        public float autoStartTime = 5f;
 
         private NetworkManager networkManager;
 
@@ -25,16 +22,16 @@ namespace Unity.Netcode.Samples
             if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer) return;
 
 #if UNITY_EDITOR
-            if (autoClient)
+            if (autoHost)
             {
                 networkManager.StartHost();
-                SceneManager.LoadScene(1);
+                //SceneManager.LoadScene(1);
                 return;
             }
             if (autoServer)
             {
                 networkManager.StartServer();
-                SceneManager.LoadScene(1);
+                //SceneManager.LoadScene(1);
                 return;
             }
 #endif
@@ -49,13 +46,13 @@ namespace Unity.Netcode.Samples
                 if (GUILayout.Button("Host"))
                 {
                     networkManager.StartHost();
-                    SceneManager.LoadScene(1);
+                    //SceneManager.LoadScene(1);
                 }
 
                 if (GUILayout.Button("Client"))
                 {
                     networkManager.StartClient();
-                    SceneManager.LoadScene(1);
+                    //SceneManager.LoadScene(1);
                 }
 
                 /*                if (GUILayout.Button("Server"))

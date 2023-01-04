@@ -14,30 +14,42 @@ public class PlayerManager : NetworkBehaviour
 
     private void Awake()
     {
-        Group1 = new NetworkList<FixedString32Bytes>(
-readPerm: NetworkVariableReadPermission.Everyone,
-writePerm: NetworkVariableWritePermission.Server
-);
-        Group2 = new NetworkList<FixedString32Bytes>(
+        MakeSingleton();
+
+        void MakeSingleton()
+        {
+            if (Singleton != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            else
+            {
+                Singleton = this;
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+    }
+    private void Start()
+    {
+        CreateGroups();
+
+        // Events
+        DBManager.OnLogin += OnLogin;
+
+        NetworkManager.OnClientDisconnectCallback += OnClientDisconnectedServerRpc;
+
+        void CreateGroups()
+        {
+            Group1 = new NetworkList<FixedString32Bytes>(
             readPerm: NetworkVariableReadPermission.Everyone,
             writePerm: NetworkVariableWritePermission.Server
             );
-
-        if (Singleton != null)
-        {
-            Destroy(gameObject);
-            return;
+            Group2 = new NetworkList<FixedString32Bytes>(
+                readPerm: NetworkVariableReadPermission.Everyone,
+                writePerm: NetworkVariableWritePermission.Server
+                );
         }
-        else
-        {
-            Singleton = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
-        //GetComponent<NetworkObject>().Spawn();
-
-        DBManager.OnLogin += OnLogin;
-
     }
 
     private void UpdateSerializedList()
@@ -75,20 +87,24 @@ writePerm: NetworkVariableWritePermission.Server
                 prettyString += ", ";
         }
     }
-/*
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
 
-        DBManager.OnLogin += OnLogin;
-    }
-*/
     /// <summary>
     /// Let the SERVER put the user in the correct group Networklist, which keeps the groups up for all connected clients.
     /// </summary>
     private void OnLogin(string uname)
     {
         OnLoginServerRpc(uname, DBManager.GroupInt);
+    }
+
+    [ServerRpc] // Runs only on server/host
+    private void OnClientDisconnectedServerRpc(ulong clientId)
+    {
+        OnClientDisconnectedClientRpc(clientId);
+    }
+    [ClientRpc] // Runs on all clients (also host)
+    private void OnClientDisconnectedClientRpc(ulong clientId)
+    {
+        print($"Client {clientId} disconnected.");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -109,8 +125,5 @@ writePerm: NetworkVariableWritePermission.Server
     }
 
     [ClientRpc]
-    private void UpdateSerializedListsClientRpc()
-    {
-        UpdateSerializedList();
-    }
+    private void UpdateSerializedListsClientRpc() => UpdateSerializedList();
 }
