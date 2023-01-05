@@ -1,57 +1,60 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public bool autoLogin = false;
+    private static bool loggedIn = false;
+
     public TMPro.TextMeshProUGUI playerDisplay;
 
     public Button registerButton;
     public Button loginButton;
     public Button playButton;
-    public Button logoutButton;
 
-    private void OnEnable()
+    private IEnumerator Start()
     {
-        SetUI();
+        if (autoLogin && !loggedIn)
+        {
+            yield return StartCoroutine(LoginManager.LoginCR("111111111111", "111111111111"));
+            yield return StartCoroutine(LoginManager.LoginCR("222222222222", "222222222222"));
+
+            SetUI();
+
+            loggedIn = true;
+        }
     }
+
+    private void OnEnable() => SetUI();
 
     private void SetUI()
     {
-        if (DBManager.LoggedIn)
-            playerDisplay.SetText($"Player: {DBManager.UserName}");
+        if (DBManager.LoggedIn())
+        {
+            string loggedInUsers = "";
+            for (int n = 0; n < DBManager.Singleton.Users.Count; n++)
+            {
+                User member = DBManager.Singleton.Users[n];
+                loggedInUsers += member.Name;
+
+                if (DBManager.Singleton.Users.Count > n + 1)
+                    loggedInUsers += ", ";
+            }
+
+            playerDisplay.SetText($"Player: {loggedInUsers}");
+        }
         else
             playerDisplay.SetText("No user logged in");
 
-        loginButton.interactable = !DBManager.LoggedIn;
-        registerButton.interactable = !DBManager.LoggedIn;
-        playButton.interactable = DBManager.LoggedIn;
-        logoutButton.interactable = DBManager.LoggedIn;
+/*        loginButton.interactable = !DBManager.LoggedIn;
+        registerButton.interactable = !DBManager.LoggedIn;*/
+        playButton.interactable = DBManager.LoggedIn();
     }
 
-    public void GoToRegisterScene()
-    {
-        SceneManager.LoadScene(1);
-    }
-    public void GoToLoginScene()
-    {
-        SceneManager.LoadScene(2);
-    }
-    public void GoToGameScene()
-    {
-        SceneManager.LoadScene(3);
-    }
-    public void GoToLeaderboard()
-    {
-        SceneManager.LoadScene(4);
-    }
-
-    public void LogOut()
-    {
-        if (DBManager.LoggedIn)
-            DBManager.LogOut();
-
-        SetUI();
-    }
-
+    public void GoToRegisterScene() => SceneManager.LoadScene(1);
+    public void GoToLoginScene() => SceneManager.LoadScene(2);
+    public void GoToGameScene() => SceneTransition.TransitionToScene(3);
+    public void GoToLeaderboard() => SceneManager.LoadScene(4);
 }
