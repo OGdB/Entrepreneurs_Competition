@@ -12,8 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Group fields"), SerializeField]
     private Group thisGroup;
 
-    [Header("Assignables"), SerializeField]
-    private TextMeshProUGUI playerText;
+    [Header("Assignables")]
     [SerializeField]
     private TextMeshProUGUI scoreText;
     [SerializeField]
@@ -63,8 +62,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                playerText.SetText($"Player: {DBManager.UserName}");
-                groupNameText.SetText(DBManager.GroupName);
+                groupNameText.SetText(DBManager.Singleton.GroupName);
                 UpdateScore();
             }
         }
@@ -99,7 +97,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void CallSaveData()
     {
-        if (DBManager.GroupName == default)
+        if (DBManager.Singleton.GroupName == default)
         {
             Debug.LogError("This user is not in a group or its group is not set in the DBManager!");
             return;
@@ -109,11 +107,11 @@ public class GameManager : MonoBehaviour
 
         IEnumerator SavePlayerData()
         {
-            string scoreString = DBManager.Score.ToString();
+            string scoreString = DBManager.Singleton.Score.ToString();
 
             List<IMultipartFormSection> formData = new()
             {
-                new MultipartFormDataSection(name: "groupname", data: DBManager.GroupName),
+                new MultipartFormDataSection(name: "groupname", data: DBManager.Singleton.GroupName),
                 new MultipartFormDataSection(name: "score", data: scoreString)
             };
 
@@ -138,11 +136,11 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void IncreaseScore(int amount)
     {
-        DBManager.Score += amount;
+        DBManager.Singleton.Score += amount;
         UpdateScore();
     }
 
-    private void UpdateScore() => scoreText.SetText($"Score: {DBManager.Score}");
+    private void UpdateScore() => scoreText.SetText($"Score: {DBManager.Singleton.Score}");
     public void ExitGame()
     {
 

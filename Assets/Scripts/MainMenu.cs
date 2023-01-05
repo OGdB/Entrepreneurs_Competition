@@ -19,12 +19,24 @@ public class MainMenu : MonoBehaviour
     private void SetUI()
     {
         if (DBManager.LoggedIn)
-            playerDisplay.SetText($"Player: {DBManager.UserName}");
+        {
+            string loggedInUsers = "";
+            for (int n = 0; n < DBManager.Singleton.Users.Count; n++)
+            {
+                User member = DBManager.Singleton.Users[n];
+                loggedInUsers += member.Name;
+
+                if (DBManager.Singleton.Users.Count > n + 1)
+                    loggedInUsers += ", ";
+            }
+
+            playerDisplay.SetText($"Player: {loggedInUsers}");
+        }
         else
             playerDisplay.SetText("No user logged in");
 
-        loginButton.interactable = !DBManager.LoggedIn;
-        registerButton.interactable = !DBManager.LoggedIn;
+/*        loginButton.interactable = !DBManager.LoggedIn;
+        registerButton.interactable = !DBManager.LoggedIn;*/
         playButton.interactable = DBManager.LoggedIn;
         logoutButton.interactable = DBManager.LoggedIn;
     }
@@ -45,13 +57,4 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(4);
     }
-
-    public void LogOut()
-    {
-        if (DBManager.LoggedIn)
-            DBManager.LogOut();
-
-        SetUI();
-    }
-
 }

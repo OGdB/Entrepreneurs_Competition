@@ -45,8 +45,7 @@ public class LoginManager : MonoBehaviour
                 if (splitText[3].Length > 0)
                     score = int.Parse(splitText[3]);
 
-                DBManager.LogIn(nameField.text, classNumber, score, groupName);
-
+                DBManager.Singleton.LogIn(nameField.text, classNumber, score, groupName);
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             }
             else
