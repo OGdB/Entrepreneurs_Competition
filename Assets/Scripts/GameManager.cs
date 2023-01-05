@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
         // Login Check & UI update.
         {
-            if (!DBManager.LoggedIn && ForceSwitchSceneWhenNotLoggedIn)
+            if (!DBManager.LoggedIn() && ForceSwitchSceneWhenNotLoggedIn)
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
                 return;

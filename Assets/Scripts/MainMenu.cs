@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
 
     private void SetUI()
     {
-        if (DBManager.LoggedIn)
+        if (DBManager.LoggedIn())
         {
             string loggedInUsers = "";
             for (int n = 0; n < DBManager.Singleton.Users.Count; n++)
@@ -37,8 +37,8 @@ public class MainMenu : MonoBehaviour
 
 /*        loginButton.interactable = !DBManager.LoggedIn;
         registerButton.interactable = !DBManager.LoggedIn;*/
-        playButton.interactable = DBManager.LoggedIn;
-        logoutButton.interactable = DBManager.LoggedIn;
+        playButton.interactable = DBManager.LoggedIn();
+        logoutButton.interactable = DBManager.LoggedIn();
     }
 
     public void GoToRegisterScene()

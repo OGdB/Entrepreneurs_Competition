@@ -20,8 +20,18 @@ public class DBManager : MonoBehaviour
     public static PressedReady OnPressedReady;
 
     // Logged in if there is an username.
-    public static bool LoggedIn { get { return Singleton.Users.Count > 0; } }
-
+    public static bool LoggedIn() => Singleton.Users.Count > 0;
+    public static bool LoggedIn(string username)
+    {
+        foreach (User user in Singleton.Users)
+        {
+            if (user.Name == username)
+                return true;
+        }
+        return false;
+    }
+    
+    
     private void Awake()
     {
         if (Singleton == null)

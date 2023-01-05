@@ -570,6 +570,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e75232b168adffc45a477dde2d0d7d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Users: []
+  currentUser:
+    Name: 
+    IsReady: 0
+  currentUserInt: 0
   ClassNumber: 
   GroupName: 
   Score: -1

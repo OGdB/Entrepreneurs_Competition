@@ -14,6 +14,8 @@ public class LoginManager : MonoBehaviour
 
     public void CallLogin()
     {
+        if (DBManager.LoggedIn(nameField.text)) return;
+
         _ = StartCoroutine(LoginCR());
 
         IEnumerator LoginCR()

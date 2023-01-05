@@ -16,7 +16,7 @@ public class Webtest : MonoBehaviour
 
         IEnumerator GetScore(string score)
         {
-            if (!DBManager.LoggedIn)
+            if (!DBManager.LoggedIn())
             {
                 print("Log in first");
                 yield break;
