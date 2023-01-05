@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Class representing and handling a Group's building
+/// </summary>
 public class Group : MonoBehaviour
 {
     private int groupNumber;
