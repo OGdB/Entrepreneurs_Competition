@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraHandler : MonoBehaviour
+public class CityCameraHandler : MonoBehaviour
 {
     [SerializeField]
     private float PanSpeed = 20f;

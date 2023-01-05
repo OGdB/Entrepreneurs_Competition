@@ -1,8 +1,7 @@
-using UnityEngine;
-using TMPro;
 using System.Collections;
-using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,32 +11,20 @@ public class GameManager : MonoBehaviour
     [Header("Group fields"), SerializeField]
     private Group thisGroup;
 
-    [Header("Assignables"), SerializeField]
-    private TextMeshProUGUI playerText;
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
-    [SerializeField]
-    private TextMeshProUGUI groupNameText;
     public BuildingUpgradeOrder Order { get => order; }
+
     [SerializeField]
     private BuildingUpgradeOrder order;
-
-    [Header("Group Members"), SerializeField]
-    private GameObject groupNameAndScorePrefab;
-    [SerializeField]
-    private Transform groupParent;
-
-    [Header("Debug Stuff")]
-    public bool ForceSwitchSceneWhenNotLoggedIn = true;
 
     // Events
         // Quiz
     public delegate void QuizReceived();
-    public static QuizReceived OnQuizReceived;
-
-        // Level up
+    public static QuizReceived OnQuizReceived { get => onQuizReceived; set => onQuizReceived = value; }
+    private static QuizReceived onQuizReceived;
+    // Level up
     public delegate void LevelUp();
-    public static LevelUp OnLevelUp;
+    public static LevelUp OnLevelUp { get => onLevelUp; set => onLevelUp = value; }
+    private static LevelUp onLevelUp;
     #endregion
 
     private void Awake()
@@ -53,43 +40,20 @@ public class GameManager : MonoBehaviour
                 _Instance = this;
             }
         }
-
-        // Login Check & UI update.
-        {
-            if (!DBManager.LoggedIn && ForceSwitchSceneWhenNotLoggedIn)
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-                return;
-            }
-            else
-            {
-                playerText.SetText($"Player: {DBManager.UserName}");
-                groupNameText.SetText(DBManager.GroupName);
-                UpdateScore();
-            }
-        }
-
-        // Add group members to top-left screen
-        /*{
-            foreach (var item in collection)
-            {
-
-            }
-        }*/
     }
 
-    private void Start() => CameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
+    private void Start() => CityCameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             thisGroup.OnLevelUp();
-            //OnLevelUp?.Invoke();
+            OnLevelUp?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            OnQuizReceived?.Invoke();
+            OnQuiz();
         }
     }
 
@@ -99,7 +63,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void CallSaveData()
     {
-        if (DBManager.GroupName == default)
+        if (DBManager.Singleton.GroupName == default)
         {
             Debug.LogError("This user is not in a group or its group is not set in the DBManager!");
             return;
@@ -109,11 +73,11 @@ public class GameManager : MonoBehaviour
 
         IEnumerator SavePlayerData()
         {
-            string scoreString = DBManager.Score.ToString();
+            string scoreString = DBManager.Singleton.Score.ToString();
 
             List<IMultipartFormSection> formData = new()
             {
-                new MultipartFormDataSection(name: "groupname", data: DBManager.GroupName),
+                new MultipartFormDataSection(name: "groupname", data: DBManager.Singleton.GroupName),
                 new MultipartFormDataSection(name: "score", data: scoreString)
             };
 
@@ -138,11 +102,18 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void IncreaseScore(int amount)
     {
-        DBManager.Score += amount;
-        UpdateScore();
+        DBManager.Singleton.Score += amount;
     }
 
-    private void UpdateScore() => scoreText.SetText($"Score: {DBManager.Score}");
+    public void OnQuiz()
+    {
+        OnQuizReceived?.Invoke();
+    }
+
+    public void PressedReady()
+    {
+        DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);
+    }
     public void ExitGame()
     {
 

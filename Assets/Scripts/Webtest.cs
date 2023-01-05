@@ -16,20 +16,21 @@ public class Webtest : MonoBehaviour
 
         IEnumerator GetScore(string score)
         {
-            if (!DBManager.LoggedIn)
+            if (!DBManager.LoggedIn())
             {
                 print("Log in first");
                 yield break;
             }
 
-            List<IMultipartFormSection> formData = new();
-            formData.Add(new MultipartFormFileSection("name", DBManager.UserName));
-            print(DBManager.UserName);
-            formData.Add(new MultipartFormFileSection("score", score));
+            List<IMultipartFormSection> formData = new()
+            {
+                new MultipartFormFileSection("name", DBManager.Singleton.Users[0].Name),
+                new MultipartFormFileSection("score", score)
+            };
 
             using (var request = UnityWebRequest.Post(DBManager.phpFolderURL + "webtest.php", formData))
             {
-                DownloadHandlerBuffer handler = new DownloadHandlerBuffer();
+                DownloadHandlerBuffer handler = new();
                 request.downloadHandler = handler;
 
                 yield return request.SendWebRequest();

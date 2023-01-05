@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Registration : MonoBehaviour
 {
@@ -42,11 +43,9 @@ public class Registration : MonoBehaviour
                 {
                     Debug.Log("User created succesfully!");
                     
-                    DBManager.UserName = nameField.text;
-                    DBManager.ClassNumber = classField.text;
-                    DBManager.Score = 0;
+                    DBManager.Singleton.LogIn(nameField.text, classField.text, 0, groupField.text);
 
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                    SceneManager.LoadScene(0);
                 }
                 else
                 {
