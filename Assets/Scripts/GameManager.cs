@@ -141,6 +141,10 @@ public class GameManager : MonoBehaviour
     }
 
     private void UpdateScore() => scoreText.SetText($"Score: {DBManager.Singleton.Score}");
+    public void PressedReady()
+    {
+        DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);
+    }
     public void ExitGame()
     {
 

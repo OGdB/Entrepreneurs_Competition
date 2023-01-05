@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class GroupScreen : MonoBehaviour
@@ -12,7 +11,15 @@ public class GroupScreen : MonoBehaviour
     [SerializeField]
     private GameObject readyButton;
 
-    private void OnEnable() => UpdateGroup();
+    private void OnEnable()
+    {
+        UpdateGroup();
+        DBManager.OnPressedReady += OnPlayerPressedReady;
+    }
+    private void OnDestroy()
+    {
+        DBManager.OnPressedReady -= OnPlayerPressedReady;
+    }
 
     private void UpdateGroup()
     {
@@ -40,21 +47,10 @@ public class GroupScreen : MonoBehaviour
         }
     }
 
-    public void OnPlayerPressedReady()
+    public void OnPlayerPressedReady(bool allReady)
     {
-        DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);
         UpdateGroup();
-        DBManager.Singleton.NextUser();
 
-        bool allReady = true;
-        foreach (var user in DBManager.Singleton.Users)
-        {
-            if (!user.IsReady)
-            {
-                allReady = false;
-                break;
-            }
-        }
         if (allReady)
             readyButton.SetActive(false);
     }

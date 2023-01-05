@@ -42,7 +42,7 @@ public class Registration : MonoBehaviour
                 {
                     Debug.Log("User created succesfully!");
                     
-                    DBManager.Singleton.LogIn(nameField.text, classField.text, 0);
+                    DBManager.Singleton.LogIn(nameField.text, classField.text, 0, groupField.text);
 
                     UnityEngine.SceneManagement.SceneManager.LoadScene(0);
                 }

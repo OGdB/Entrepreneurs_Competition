@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class DBManager : MonoBehaviour
 {
@@ -16,6 +15,9 @@ public class DBManager : MonoBehaviour
 
     public delegate void CurrentUserChanged();
     public static CurrentUserChanged OnCurrentUserChanged;
+
+    public delegate void PressedReady(bool allReady);
+    public static PressedReady OnPressedReady;
 
     // Logged in if there is an username.
     public static bool LoggedIn { get { return Singleton.Users.Count > 0; } }
@@ -61,13 +63,28 @@ public class DBManager : MonoBehaviour
         OnCurrentUserChanged?.Invoke();
     }
 
-    public void ChangePlayerReadyStatus(User user, bool newState)
+    /// <summary>
+    /// Change a single player's ready status and return if all players are now ready.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="newState"></param>
+    /// <returns>Are all players ready?</returns>
+    public bool ChangePlayerReadyStatus(User user, bool newState)
     {
         user.IsReady = newState;
-/*        foreach (User u in Users.Where(u => u == user))
+        NextUser();
+
+        bool allReady = true;
+        foreach (var u in Singleton.Users)
         {
-            u.IsReady = newState;
-        }*/
+            if (!u.IsReady)
+            {
+                allReady = false;
+                break;
+            }
+        }
+        OnPressedReady?.Invoke(allReady);
+        return allReady;
     }
 }
 
