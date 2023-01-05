@@ -166,6 +166,8 @@ public class QuizManager : MonoBehaviour
     private void ClearQuestionFields()
     {
         quizQuestionVariant.ResetToggles();
+        standard.SetActive(false);
+        webConnections.SetActive(false);
     }
 
     public void Reset()
