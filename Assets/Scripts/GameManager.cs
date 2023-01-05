@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,9 +11,6 @@ public class GameManager : MonoBehaviour
     [Header("Group fields"), SerializeField]
     private Group thisGroup;
 
-    [Header("Assignables")]
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
     public BuildingUpgradeOrder Order { get => order; }
 
     [SerializeField]
@@ -44,7 +40,6 @@ public class GameManager : MonoBehaviour
             {
                 _Instance = this;
             }
-                UpdateScore();
         }
     }
 
@@ -109,10 +104,8 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(int amount)
     {
         DBManager.Singleton.Score += amount;
-        UpdateScore();
     }
 
-    private void UpdateScore() => scoreText.SetText($"Score: {DBManager.Singleton.Score}");
     public void PressedReady()
     {
         DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);

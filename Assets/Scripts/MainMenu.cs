@@ -1,14 +1,31 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public bool autoLogin = false;
+    private static bool loggedIn = false;
+
     public TMPro.TextMeshProUGUI playerDisplay;
 
     public Button registerButton;
     public Button loginButton;
     public Button playButton;
+
+    private IEnumerator Start()
+    {
+        if (autoLogin && !loggedIn)
+        {
+            yield return StartCoroutine(LoginManager.LoginCR("111111111111", "111111111111"));
+            yield return StartCoroutine(LoginManager.LoginCR("222222222222", "222222222222"));
+
+            SetUI();
+
+            loggedIn = true;
+        }
+    }
 
     private void OnEnable() => SetUI();
 

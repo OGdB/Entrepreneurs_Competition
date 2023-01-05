@@ -93,6 +93,7 @@ public class DBManager : MonoBehaviour
                 break;
             }
         }
+
         OnPressedReady?.Invoke(allReady);
         return allReady;
     }

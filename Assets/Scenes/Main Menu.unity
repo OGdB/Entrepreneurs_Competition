@@ -632,7 +632,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &461564397
 MonoBehaviour:
@@ -767,6 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239780b3b81f36b4bb070b75d53346ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoLogin: 1
   playerDisplay: {fileID: 1224272202}
   registerButton: {fileID: 1065804629}
   loginButton: {fileID: 438636576}
@@ -784,7 +785,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &994455850
 GameObject:
