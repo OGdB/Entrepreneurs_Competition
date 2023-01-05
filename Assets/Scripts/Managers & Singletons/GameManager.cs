@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     // Level up
     public delegate void LevelUp();
     public static LevelUp OnLevelUp { get => onLevelUp; set => onLevelUp = value; }
-
     private static LevelUp onLevelUp;
     #endregion
 
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start() => CameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
+    private void Start() => CityCameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
 
     private void Update()
     {
@@ -54,7 +53,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            OnQuizReceived?.Invoke();
+            OnQuiz();
         }
     }
 
@@ -104,6 +103,11 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(int amount)
     {
         DBManager.Singleton.Score += amount;
+    }
+
+    public void OnQuiz()
+    {
+        OnQuizReceived?.Invoke();
     }
 
     public void PressedReady()
