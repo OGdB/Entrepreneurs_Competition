@@ -10,11 +10,16 @@ public class GroupScreen : MonoBehaviour
     private Transform parent;
     [SerializeField]
     private GameObject readyButton;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI groupNameText;
 
     private void OnEnable()
     {
         UpdateGroup();
+        groupNameText.SetText(DBManager.Singleton.GroupName);
+
         DBManager.OnPressedReady += OnPlayerPressedReady;
+
     }
     private void OnDestroy()
     {

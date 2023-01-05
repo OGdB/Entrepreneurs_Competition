@@ -1,9 +1,8 @@
-using UnityEngine;
-using TMPro;
 using System.Collections;
-using UnityEngine.Networking;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,28 +15,21 @@ public class GameManager : MonoBehaviour
     [Header("Assignables")]
     [SerializeField]
     private TextMeshProUGUI scoreText;
-    [SerializeField]
-    private TextMeshProUGUI groupNameText;
     public BuildingUpgradeOrder Order { get => order; }
+
     [SerializeField]
     private BuildingUpgradeOrder order;
-
-    [Header("Group Members"), SerializeField]
-    private GameObject groupNameAndScorePrefab;
-    [SerializeField]
-    private Transform groupParent;
-
-    [Header("Debug Stuff")]
-    public bool ForceSwitchSceneWhenNotLoggedIn = true;
 
     // Events
         // Quiz
     public delegate void QuizReceived();
-    public static QuizReceived OnQuizReceived;
-
-        // Level up
+    public static QuizReceived OnQuizReceived { get => onQuizReceived; set => onQuizReceived = value; }
+    private static QuizReceived onQuizReceived;
+    // Level up
     public delegate void LevelUp();
-    public static LevelUp OnLevelUp;
+    public static LevelUp OnLevelUp { get => onLevelUp; set => onLevelUp = value; }
+
+    private static LevelUp onLevelUp;
     #endregion
 
     private void Awake()
@@ -52,29 +44,8 @@ public class GameManager : MonoBehaviour
             {
                 _Instance = this;
             }
-        }
-
-        // Login Check & UI update.
-        {
-            if (!DBManager.LoggedIn() && ForceSwitchSceneWhenNotLoggedIn)
-            {
-                SceneManager.LoadScene(0);
-                return;
-            }
-            else
-            {
-                groupNameText.SetText(DBManager.Singleton.GroupName);
                 UpdateScore();
-            }
         }
-
-        // Add group members to top-left screen
-        /*{
-            foreach (var item in collection)
-            {
-
-            }
-        }*/
     }
 
     private void Start() => CameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
@@ -84,7 +55,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             thisGroup.OnLevelUp();
-            //OnLevelUp?.Invoke();
+            OnLevelUp?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {

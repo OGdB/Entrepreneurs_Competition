@@ -55599,6 +55599,7 @@ MonoBehaviour:
   overviewPlayerGo: {fileID: 3904353707185264321, guid: d410f3f76458a364bab1c3717679ac59, type: 3}
   parent: {fileID: 1203799748}
   readyButton: {fileID: 1285373625}
+  groupNameText: {fileID: 0}
 --- !u!1001 &1378193621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57774,11 +57775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisGroup: {fileID: 598996335}
   scoreText: {fileID: 1224272202}
-  groupNameText: {fileID: 75323481}
   order: {fileID: 11400000, guid: 2f5dc0da270b14248aa492fb223a3fc9, type: 2}
-  groupNameAndScorePrefab: {fileID: 3904353707185264321, guid: d410f3f76458a364bab1c3717679ac59, type: 3}
-  groupParent: {fileID: 1203799748}
-  ForceSwitchSceneWhenNotLoggedIn: 0
 --- !u!4 &1441541497
 Transform:
   m_ObjectHideFlags: 0
