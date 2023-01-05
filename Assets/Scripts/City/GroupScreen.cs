@@ -12,7 +12,10 @@ public class GroupScreen : MonoBehaviour
     private GameObject readyButton;
     [SerializeField]
     private TMPro.TextMeshProUGUI groupNameText;
-
+    [SerializeField]
+    private Color notReadyColor = Color.white;
+    [SerializeField]
+    private Color readyColor = Color.white;
     private void OnEnable()
     {
         UpdateGroup();
@@ -38,7 +41,6 @@ public class GroupScreen : MonoBehaviour
         foreach (var member in DBManager.Singleton.Users)
         {
             string name = member.Name;
-            string ready = member.IsReady ? "Ready" : "Not Ready";
             
             GameObject go = Instantiate(overviewPlayerGo, parent);
             OverviewPlayerObject opo = new(go, member);
@@ -47,8 +49,18 @@ public class GroupScreen : MonoBehaviour
 
             TMPro.TextMeshProUGUI nameText = go.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
             nameText.SetText(name);
+
             TMPro.TextMeshProUGUI readyText = go.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>();
-            readyText.SetText(ready);
+            if (member.IsReady)
+            {
+                readyText.color = readyColor;
+                readyText.SetText("Ready");
+            }
+            else
+            {
+                readyText.color = notReadyColor;
+                readyText.SetText("Not Ready");
+            }
         }
     }
 
