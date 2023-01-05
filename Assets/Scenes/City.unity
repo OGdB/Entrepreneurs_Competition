@@ -21930,6 +21930,7 @@ GameObject:
   - component: {fileID: 550886094}
   - component: {fileID: 550886093}
   - component: {fileID: 550886092}
+  - component: {fileID: 550886095}
   m_Layer: 5
   m_Name: Quiz Event
   m_TagString: Untagged
@@ -22052,6 +22053,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550886090}
   m_CullTransparentMesh: 1
+--- !u!114 &550886095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550886090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e521e86a2f6c7642ae00483746da0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: These Buttons are here just for Testing
 --- !u!1001 &550980879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27436,6 +27450,7 @@ GameObject:
   - component: {fileID: 649562712}
   - component: {fileID: 649562715}
   - component: {fileID: 649562714}
+  - component: {fileID: 649562716}
   m_Layer: 5
   m_Name: Current User
   m_TagString: Untagged
@@ -27502,6 +27517,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649562711}
   m_CullTransparentMesh: 1
+--- !u!114 &649562716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649562711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e521e86a2f6c7642ae00483746da0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: '''Turns'' are only here for testing purposes. The game final product
+    would be multiplayer, where each user is on their own device.'
 --- !u!1 &651344405
 GameObject:
   m_ObjectHideFlags: 0
@@ -39322,6 +39351,7 @@ GameObject:
   - component: {fileID: 937520887}
   - component: {fileID: 937520886}
   - component: {fileID: 937520885}
+  - component: {fileID: 937520888}
   m_Layer: 5
   m_Name: Earn Points
   m_TagString: Untagged
@@ -39444,6 +39474,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937520883}
   m_CullTransparentMesh: 1
+--- !u!114 &937520888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937520883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e521e86a2f6c7642ae00483746da0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: These Buttons are here just for Testing
 --- !u!1 &940057564
 GameObject:
   m_ObjectHideFlags: 0
@@ -62726,6 +62769,7 @@ GameObject:
   - component: {fileID: 1591105335}
   - component: {fileID: 1591105334}
   - component: {fileID: 1591105333}
+  - component: {fileID: 1591105336}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -62848,6 +62892,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591105331}
   m_CullTransparentMesh: 1
+--- !u!114 &1591105336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591105331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e521e86a2f6c7642ae00483746da0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: These Buttons are here just for Testing
 --- !u!1 &1592305260
 GameObject:
   m_ObjectHideFlags: 0
