@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
@@ -48,7 +49,7 @@ public class LoginManager : MonoBehaviour
                     score = int.Parse(splitText[3]);
 
                 DBManager.Singleton.LogIn(nameField.text, classNumber, score, groupName);
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                SceneManager.LoadScene(0);
             }
             else
             {

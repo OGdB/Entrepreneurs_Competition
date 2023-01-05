@@ -9,12 +9,8 @@ public class MainMenu : MonoBehaviour
     public Button registerButton;
     public Button loginButton;
     public Button playButton;
-    public Button logoutButton;
 
-    private void OnEnable()
-    {
-        SetUI();
-    }
+    private void OnEnable() => SetUI();
 
     private void SetUI()
     {
@@ -38,23 +34,10 @@ public class MainMenu : MonoBehaviour
 /*        loginButton.interactable = !DBManager.LoggedIn;
         registerButton.interactable = !DBManager.LoggedIn;*/
         playButton.interactable = DBManager.LoggedIn();
-        logoutButton.interactable = DBManager.LoggedIn();
     }
 
-    public void GoToRegisterScene()
-    {
-        SceneManager.LoadScene(1);
-    }
-    public void GoToLoginScene()
-    {
-        SceneManager.LoadScene(2);
-    }
-    public void GoToGameScene()
-    {
-        SceneManager.LoadScene(3);
-    }
-    public void GoToLeaderboard()
-    {
-        SceneManager.LoadScene(4);
-    }
+    public void GoToRegisterScene() => SceneManager.LoadScene(1);
+    public void GoToLoginScene() => SceneManager.LoadScene(2);
+    public void GoToGameScene() => SceneTransition.TransitionToScene(3);
+    public void GoToLeaderboard() => SceneManager.LoadScene(4);
 }

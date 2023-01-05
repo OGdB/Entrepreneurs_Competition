@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class QuizCountdown : MonoBehaviour
 {
@@ -45,6 +44,6 @@ public class QuizCountdown : MonoBehaviour
             secondsLeftText.SetText(secondsLeft.ToString());
         }
 
-        SceneManager.LoadScene("Quiz");
+        SceneTransition.TransitionToScene("Quiz");
     }
 }

@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
         {
             if (!DBManager.LoggedIn() && ForceSwitchSceneWhenNotLoggedIn)
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                SceneManager.LoadScene(0);
                 return;
             }
             else

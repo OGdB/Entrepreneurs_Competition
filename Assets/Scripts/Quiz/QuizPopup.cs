@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class Quiz : MonoBehaviour
+public class QuizPopup : MonoBehaviour
 {
     [SerializeField]
     private Animation QuizPopupAnimation;
