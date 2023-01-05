@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class DeveloperCommentTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [TextArea(2, 4)]
     public string comment;
 
     // For UI
