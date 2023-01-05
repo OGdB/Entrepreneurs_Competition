@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [Space(5), Tooltip("Log in with test accounts")]
     public bool autoLogin = false;
     private static bool loggedIn = false;
 
+    [Space(10), Header("Assignables")]
     public TMPro.TextMeshProUGUI playerDisplay;
-
     public Button registerButton;
     public Button loginButton;
     public Button playButton;

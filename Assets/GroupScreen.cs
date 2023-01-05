@@ -45,9 +45,9 @@ public class GroupScreen : MonoBehaviour
             overviewPlayerGos.Add(opo);
             go.name = name;
 
-            TMPro.TextMeshProUGUI nameText = go.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+            TMPro.TextMeshProUGUI nameText = go.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
             nameText.SetText(name);
-            TMPro.TextMeshProUGUI readyText = go.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
+            TMPro.TextMeshProUGUI readyText = go.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>();
             readyText.SetText(ready);
         }
     }
