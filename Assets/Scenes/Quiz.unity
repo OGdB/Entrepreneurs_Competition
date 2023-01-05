@@ -2281,7 +2281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentQuestionVariant: 0
-  amountOfQuestionsToAsk: 2
+  amountOfQuestionsToAsk: 5
   standard: {fileID: 1858409376}
   webConnections: {fileID: 197526311}
   wrongSound: {fileID: 8300000, guid: 4478e8577f09da1448e425fd910fbcfb, type: 3}
