@@ -139,8 +139,8 @@ public class QuizManager : MonoBehaviour
         {
             // If more than half of the group voted for the correct answer, they get points.
             float percentageVotedCorrect = votedCorrectly / (float)AmountOfConfirmedVotes;
-            print($"Percentage voted correctly = {percentageVotedCorrect}");
-            if (percentageVotedCorrect > 0.5f)
+            print($"Percentage voted correctly = {percentageVotedCorrect * 100 }%");
+            if (percentageVotedCorrect >= 0.5f)
             {
                 answeredCorrect++;
                 AudioPlayer.PlaySound(clip: correctSound);
