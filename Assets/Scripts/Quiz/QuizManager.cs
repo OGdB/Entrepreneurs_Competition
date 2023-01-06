@@ -1,7 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
@@ -45,6 +45,12 @@ public class QuizManager : MonoBehaviour
     
     public delegate void QuizOver();
     public static QuizOver OnQuizOver;
+
+    public int AmountOfConfirmedVotes { get => amountOfConfirmedVotes; set => amountOfConfirmedVotes = value; }
+    private int amountOfConfirmedVotes = 0;
+    
+    public int VotedCorrectly { get => votedCorrectly; set => votedCorrectly = value; }
+    private int votedCorrectly = 0;
     #endregion
 
     private void OnEnable() => QuizTimer.OnTimerUp += QuizFinished;
@@ -70,8 +76,6 @@ public class QuizManager : MonoBehaviour
             SetToCurrentQuestion();
         }
     }
-
-   
 
     private GameObject GetQuestionVariantObject(QuizQuestionVariants questionVariant)
     {
@@ -115,34 +119,63 @@ public class QuizManager : MonoBehaviour
         quizQuestionVariant.SetQuestion(currentQuestion);
     }
 
+    /// <summary>
+    /// Confirm button pressed, meaning 1 user has made their vote.
+    /// </summary>
     public void OnAnswerConfirmation()
     {
-        if (quizQuestionVariant.CorrectAnswersSelected)
+        AmountOfConfirmedVotes++;
+
+        print($"{DBManager.Singleton.currentUser.Name} voted for {quizQuestionVariant.GetAnsweredAsPrettyString()}");
+
+        // Was the vote correct?
+        if (quizQuestionVariant.AllAnswersCorrect)
         {
-            answeredCorrect++;
-            AudioPlayer.PlaySound(clip: correctSound);
+            VotedCorrectly++;
         }
-        else
+
+        // If each member has voted, check if the majority voted correctly.
+        if (AmountOfConfirmedVotes == DBManager.AmountOfUsers)
         {
-            answeredWrong++;
-            AudioPlayer.PlaySound(clip: wrongSound);
+            // If more than half of the group voted for the correct answer, they get points.
+            float percentageVotedCorrect = votedCorrectly / (float)AmountOfConfirmedVotes;
+            print($"Percentage voted correctly = {percentageVotedCorrect * 100 }%");
+            if (percentageVotedCorrect >= 0.5f)
+            {
+                answeredCorrect++;
+                AudioPlayer.PlaySound(clip: correctSound);
+            }
+            else
+            {
+                answeredWrong++;
+                AudioPlayer.PlaySound(clip: wrongSound);
+            }
+
+            // After everyone voted, reset these values for the next question.
+            amountOfConfirmedVotes= 0;
+            VotedCorrectly = 0;
+            
+            // Then, move to the next question.
+            if (currentQuestionInt < questions.Length - 1)
+            {
+                ClearQuestionFields();
+                currentQuestionInt++;
+
+                questionNumberText.SetText($"Question {currentQuestionInt + 1} / {questions.Length}");
+
+                quizQuestionVariant.ResetToggles();
+                SetToCurrentQuestion();
+                return;
+            }
+            else // Quiz finished
+            {
+                QuizFinished();
+            }
         }
 
-
-        ClearQuestionFields();
-
-        if (currentQuestionInt < questions.Length - 1)
-        {
-            currentQuestionInt++;
-
-            questionNumberText.SetText($"Question {currentQuestionInt + 1} / {questions.Length}");
-
-            SetToCurrentQuestion();
-        }
-        else // Quiz finished
-        {
-            QuizFinished();
-        }
+        // Reset the toggles for the next user to vote
+        quizQuestionVariant.ResetToggles(resetToggles: false);
+        DBManager.Singleton.NextUser();
     }
 
     private void QuizFinished()

@@ -6,6 +6,7 @@ public class DBManager : MonoBehaviour
     public static DBManager Singleton;
     public const string phpFolderURL = "https://oeds.online/php/";
 
+    public static int AmountOfUsers => Singleton.Users.Count;
     public List<User> Users = new();
     public User currentUser;
     public int currentUserInt = 0;

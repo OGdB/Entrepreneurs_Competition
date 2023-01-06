@@ -114,9 +114,9 @@ public class GameManager : MonoBehaviour
     {
         DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);
     }
+
     public void ExitGame()
     {
-
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
