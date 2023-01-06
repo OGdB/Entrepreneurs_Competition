@@ -1,7 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class QuizManager : MonoBehaviour
     public QuizQuestionVariants currentQuestionVariant;
     [SerializeField, Space(10)]
     private int amountOfQuestionsToAsk = 3;
+    private int votedToStart = 0;
 
     [Header("Question Variants"), SerializeField]
     private GameObject standard;
@@ -25,12 +27,14 @@ public class QuizManager : MonoBehaviour
     [SerializeField]
     private AudioClip quizOverSound;
 
-    [SerializeField, Header("Text fields")]
+    [SerializeField, Header("Assignables")]
     private TextMeshProUGUI questionNumberText;
-    [SerializeField, Space(5)]
+    [SerializeField]
     private TextMeshProUGUI answersCorrectText;
     [SerializeField]
     private TextMeshProUGUI answersWrongText;
+    [SerializeField]
+    private GameObject readyButton;
 
     private int answeredCorrect = 0;
     private int answeredWrong = 0;
@@ -56,9 +60,15 @@ public class QuizManager : MonoBehaviour
     private void OnEnable() => QuizTimer.OnTimerUp += QuizFinished;
     private void OnDisable() => QuizTimer.OnTimerUp -= QuizFinished;
 
-    public void StartQuiz()
+    public void VotedToStartQuiz()
     {
-        _ = StartCoroutine(StartQuizCR());
+        votedToStart++;
+        DBManager.Singleton.NextUser();
+        if (votedToStart >= DBManager.AmountOfUsers)
+        {
+            readyButton.SetActive(false);
+            _ = StartCoroutine(StartQuizCR());
+        }
 
         IEnumerator StartQuizCR()
         {
@@ -189,6 +199,7 @@ public class QuizManager : MonoBehaviour
 
             answersCorrectText.SetText($"Answers Correct: {answeredCorrect}");
             answersWrongText.SetText($"Answers Wrong: {answeredWrong}");
+            SceneTransition.TransitionToScene("City", LoadSceneMode.Additive);
 
             yield return new WaitForSeconds(1.5f);
 

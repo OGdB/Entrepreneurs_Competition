@@ -33,12 +33,12 @@ public class SceneTransition : MonoBehaviour
             fadeOutCanvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public static void TransitionToScene(string sceneName) => 
-        Singleton.StartCoroutine(Singleton.WaitForFade(sceneName));
-    public static void TransitionToScene(int sceneInt) => 
-        Singleton.StartCoroutine(Singleton.WaitForFade(sceneInt));
+    public static void TransitionToScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single) => 
+        Singleton.StartCoroutine(Singleton.WaitForFade(sceneName, mode));
+    public static void TransitionToScene(int sceneInt, LoadSceneMode mode = LoadSceneMode.Single) => 
+        Singleton.StartCoroutine(Singleton.WaitForFade(sceneInt, mode));
 
-    private IEnumerator WaitForFade(string sceneName)
+    private IEnumerator WaitForFade(string sceneName, LoadSceneMode mode)
     {
         if (isInTransition) yield break;
 
@@ -47,7 +47,7 @@ public class SceneTransition : MonoBehaviour
 
         yield return Fade(1f);
 
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName, mode);
 
         yield return new WaitForSeconds(inBetweenWait);
 
@@ -56,7 +56,7 @@ public class SceneTransition : MonoBehaviour
         isInTransition = false;
         EventSystem.current.enabled = true;
     }
-    private IEnumerator WaitForFade(int sceneInt)
+    private IEnumerator WaitForFade(int sceneInt, LoadSceneMode mode)
     {
         if (isInTransition) yield break;
 
@@ -65,7 +65,7 @@ public class SceneTransition : MonoBehaviour
 
         yield return Fade(1f);
 
-        SceneManager.LoadScene(sceneInt);
+        SceneManager.LoadScene(sceneInt, mode);
 
         yield return new WaitForSeconds(inBetweenWait);
 
