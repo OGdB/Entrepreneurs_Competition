@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         {
             if (Singleton != null && Singleton != this)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
             else
             {
@@ -44,8 +44,11 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    private void OnDestroy() => Singleton = null;
-
+    private void OnDestroy()
+    {
+        if (Singleton == this)
+            Singleton = null;
+    }
     private void Start() => CityCameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
 
     private void Update()

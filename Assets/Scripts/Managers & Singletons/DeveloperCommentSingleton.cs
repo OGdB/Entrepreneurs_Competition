@@ -23,7 +23,11 @@ public class DeveloperCommentSingleton : MonoBehaviour
             return;
         }
     }
-    private void OnDestroy() => Singleton = null;
+    private void OnDestroy()
+    {
+        if (Singleton == this)
+            Singleton = null;
+    }
     private void Start()
     {
         Canvas = GetComponent<Canvas>();

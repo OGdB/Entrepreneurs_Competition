@@ -24,7 +24,8 @@ public class AudioPlayer : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Singleton = null;
+        if (Singleton == gameObject)
+            Singleton = null;
     }
 
     public static void PlaySound(AudioClip clip, float volume = 1f) => Singleton.source.PlayOneShot(clip, volume);

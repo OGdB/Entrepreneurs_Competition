@@ -46,7 +46,6 @@ public class DBManager : MonoBehaviour
         return false;
     }
     
-    
     private void Awake()
     {
         if (Singleton == null)
@@ -59,7 +58,12 @@ public class DBManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void OnDestroy() => Singleton = null;
+    private void OnDestroy()
+    {
+        if (Singleton == gameObject)
+            Singleton = null;
+    }
+
     public void LogIn(string name, string classNumber, int score, string groupName = default)
     {
         Users.Add(new(name));
