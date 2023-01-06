@@ -6,12 +6,24 @@ using UnityEngine;
 /// </summary>
 public class CurrentUser : MonoBehaviour
 {
+    public static CurrentUser Singleton;
+
     private float animationLength = 0.5f;
 
     private WaitForEndOfFrame frame;
 
     private void Awake()
     {
+        if (Singleton == null)
+        {
+            Singleton = this;
+            DontDestroyOnLoad(transform.parent.parent.gameObject);
+        }
+        else
+        {
+            Destroy(transform.parent.parent.gameObject);
+        }
+
         frame = new();
         SetToCurrentUser();
     }

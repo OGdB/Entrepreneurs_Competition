@@ -2,7 +2,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class QuizManager : MonoBehaviour
     private GameObject webConnections;
 
     private GameObject currentActivatedQuestionVariantObject;
+
 
     [SerializeField, Header("Sounds")]
     private AudioClip wrongSound;
