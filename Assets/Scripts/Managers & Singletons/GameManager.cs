@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[DefaultExecutionOrder(-1000)]
 public class GameManager : MonoBehaviour
 {
     #region Properties
@@ -34,13 +35,13 @@ public class GameManager : MonoBehaviour
     {
         // Singleton
         {
-            if (Singleton != null && Singleton != this)
+            if (Singleton == null)
             {
-                Destroy(gameObject);
+                Singleton = this;
             }
             else
             {
-                Singleton = this;
+                Destroy(gameObject);
             }
         }
     }
@@ -107,21 +108,16 @@ public class GameManager : MonoBehaviour
     /// Locally increase the score
     /// </summary>
     /// <param name="amount"></param>
-    public void IncreaseScore(int amount)
-    {
-        DBManager.Singleton.IncreaseScore(amount);
-    }
+    public void IncreaseScore(int amount) => DBManager.Singleton.IncreaseScore(amount);
 
     public void OnQuiz()
     {
-        OnQuizReceived?.Invoke();
         QuizAvailable = true;
+        OnQuizReceived?.Invoke();
     }
 
-    public void PressedReady()
-    {
+    public void PressedReady() => 
         DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);
-    }
 
     public void ExitGame()
     {

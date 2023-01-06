@@ -207,6 +207,7 @@ public class QuizManager : MonoBehaviour
 
             answersCorrectText.SetText($"Answers Correct: {answeredCorrect}");
             answersWrongText.SetText($"Answers Wrong: {answeredWrong}");
+            Camera.main.GetComponent<AudioListener>().enabled = false;
             SceneTransition.TransitionToScene("City", LoadSceneMode.Additive);
 
             yield return new WaitForSeconds(1.5f);
