@@ -5,6 +5,8 @@ public class QuizCountdown : MonoBehaviour
 {
     [SerializeField] 
     private int countdownLength = 5;
+    [SerializeField, Range(0.05f, 1f)]
+    private float tickVolume = 0.5f;
     [SerializeField] 
     private TMPro.TextMeshProUGUI secondsLeftText;
 
@@ -14,6 +16,8 @@ public class QuizCountdown : MonoBehaviour
 
     [SerializeField]
     private GameObject UI;
+    [SerializeField]
+    private AudioClip tickSound;
 
     private void Awake()
     {
@@ -42,6 +46,7 @@ public class QuizCountdown : MonoBehaviour
             yield return second;
             secondsLeft--;
             secondsLeftText.SetText(secondsLeft.ToString());
+            AudioPlayer.PlaySound(tickSound, tickVolume);
         }
 
         SceneTransition.TransitionToScene("Quiz");

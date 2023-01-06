@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[DefaultExecutionOrder(-1000)]
 public class GameManager : MonoBehaviour
 {
     #region Properties
-    public static GameManager _Instance;
+    public static GameManager Singleton;
 
     [Header("Group fields"), SerializeField]
     private Group thisGroup;
@@ -25,23 +26,30 @@ public class GameManager : MonoBehaviour
     public delegate void LevelUp();
     public static LevelUp OnLevelUp { get => onLevelUp; set => onLevelUp = value; }
     private static LevelUp onLevelUp;
+
+    public bool QuizAvailable { get => quizAvailable; set => quizAvailable = value; }
+    private bool quizAvailable = false;
     #endregion
 
     private void Awake()
     {
         // Singleton
         {
-            if (_Instance != null && _Instance != this)
+            if (Singleton == null)
             {
-                Destroy(this.gameObject);
+                Singleton = this;
             }
             else
             {
-                _Instance = this;
+                Destroy(gameObject);
             }
         }
     }
-
+    private void OnDestroy()
+    {
+        if (Singleton == this)
+            Singleton = null;
+    }
     private void Start() => CityCameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
 
     private void Update()
@@ -100,20 +108,16 @@ public class GameManager : MonoBehaviour
     /// Locally increase the score
     /// </summary>
     /// <param name="amount"></param>
-    public void IncreaseScore(int amount)
-    {
-        DBManager.Singleton.Score += amount;
-    }
+    public void IncreaseScore(int amount) => DBManager.Singleton.IncreaseScore(amount);
 
     public void OnQuiz()
     {
+        QuizAvailable = true;
         OnQuizReceived?.Invoke();
     }
 
-    public void PressedReady()
-    {
+    public void PressedReady() => 
         DBManager.Singleton.ChangePlayerReadyStatus(DBManager.Singleton.currentUser, true);
-    }
 
     public void ExitGame()
     {

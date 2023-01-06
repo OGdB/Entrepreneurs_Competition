@@ -16,16 +16,19 @@ public class GroupScreen : MonoBehaviour
     private Color notReadyColor = Color.white;
     [SerializeField]
     private Color readyColor = Color.white;
+
     private void OnEnable()
     {
         UpdateGroup();
         groupNameText.SetText(DBManager.Singleton.GroupName);
 
+        // When a quiz comes in, update group screen so it shows everyone's ready status.
+        GameManager.OnQuizReceived += UpdateGroup;
         DBManager.OnPressedReady += OnPlayerPressedReady;
-
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
+        GameManager.OnQuizReceived -= UpdateGroup;
         DBManager.OnPressedReady -= OnPlayerPressedReady;
     }
 
@@ -41,7 +44,7 @@ public class GroupScreen : MonoBehaviour
         foreach (var member in DBManager.Singleton.Users)
         {
             string name = member.Name;
-            
+
             GameObject go = Instantiate(overviewPlayerGo, parent);
             OverviewPlayerObject opo = new(go, member);
             overviewPlayerGos.Add(opo);
@@ -50,16 +53,26 @@ public class GroupScreen : MonoBehaviour
             TMPro.TextMeshProUGUI nameText = go.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>();
             nameText.SetText(name);
 
+            // Only show ready status if there's a quiz available
             TMPro.TextMeshProUGUI readyText = go.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>();
-            if (member.IsReady)
+            if (GameManager.Singleton.QuizAvailable)
             {
-                readyText.color = readyColor;
-                readyText.SetText("Ready");
+                readyText.gameObject.SetActive(true);
+
+                if (member.IsReady)
+                {
+                    readyText.color = readyColor;
+                    readyText.SetText("Ready");
+                }
+                else
+                {
+                    readyText.color = notReadyColor;
+                    readyText.SetText("Not Ready");
+                }
             }
             else
             {
-                readyText.color = notReadyColor;
-                readyText.SetText("Not Ready");
+                readyText.gameObject.SetActive(false);
             }
         }
     }

@@ -37,14 +37,14 @@ public class Group : MonoBehaviour
             groupBuilding = null;
         }
 
-        currentBuilding = Instantiate(GameManager._Instance.Order.GetBuilding(currentLevel), transform);
+        currentBuilding = Instantiate(GameManager.Singleton.Order.GetBuilding(currentLevel), transform);
         currentBuilding.transform.position = transform.position;
         groupBuilding = currentBuilding.GetComponent<Building>();
     }
 
     public void OnLevelUp()
     {
-        if (groupLevel < GameManager._Instance.Order.GetOrderLength() - 1)
+        if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
         {
             groupLevel++;
             GetCurrentBuilding(groupLevel);

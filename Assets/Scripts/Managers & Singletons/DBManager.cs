@@ -7,12 +7,26 @@ public class DBManager : MonoBehaviour
     public const string phpFolderURL = "https://oeds.online/php/";
 
     public static int AmountOfUsers => Singleton.Users.Count;
+
+
     public List<User> Users = new();
     public User currentUser;
     public int currentUserInt = 0;
     public string ClassNumber = null;
     public string GroupName = null;
-    public int Score = -1;
+    public int PreviousScore = -1;
+    public void IncreaseScore(int increase)
+    {
+        OldScore = Score;
+        Score = OldScore + increase;
+    }
+    public void InitiateScore(int score)
+    {
+        OldScore= score;
+        Score = score;
+    }
+    public int OldScore { get; private set; } = -1;
+    public int Score { get; private set; } = -1;
 
     public delegate void CurrentUserChanged();
     public static CurrentUserChanged OnCurrentUserChanged;
@@ -32,7 +46,6 @@ public class DBManager : MonoBehaviour
         return false;
     }
     
-    
     private void Awake()
     {
         if (Singleton == null)
@@ -44,6 +57,11 @@ public class DBManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    private void OnDestroy()
+    {
+        if (Singleton == gameObject)
+            Singleton = null;
     }
 
     public void LogIn(string name, string classNumber, int score, string groupName = default)

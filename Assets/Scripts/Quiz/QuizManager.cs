@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuizManager : MonoBehaviour
 {
@@ -10,6 +10,9 @@ public class QuizManager : MonoBehaviour
     public QuizQuestionVariants currentQuestionVariant;
     [SerializeField, Space(10)]
     private int amountOfQuestionsToAsk = 3;
+    [SerializeField]
+    private int scorePerAnswer = 10;
+    private int votedToStart = 0;
 
     [Header("Question Variants"), SerializeField]
     private GameObject standard;
@@ -18,6 +21,7 @@ public class QuizManager : MonoBehaviour
 
     private GameObject currentActivatedQuestionVariantObject;
 
+
     [SerializeField, Header("Sounds")]
     private AudioClip wrongSound;
     [SerializeField]
@@ -25,12 +29,14 @@ public class QuizManager : MonoBehaviour
     [SerializeField]
     private AudioClip quizOverSound;
 
-    [SerializeField, Header("Text fields")]
+    [SerializeField, Header("Assignables")]
     private TextMeshProUGUI questionNumberText;
-    [SerializeField, Space(5)]
+    [SerializeField]
     private TextMeshProUGUI answersCorrectText;
     [SerializeField]
     private TextMeshProUGUI answersWrongText;
+    [SerializeField]
+    private GameObject readyButton;
 
     private int answeredCorrect = 0;
     private int answeredWrong = 0;
@@ -53,12 +59,18 @@ public class QuizManager : MonoBehaviour
     private int votedCorrectly = 0;
     #endregion
 
-    private void OnEnable() => QuizTimer.OnTimerUp += QuizFinished;
-    private void OnDisable() => QuizTimer.OnTimerUp -= QuizFinished;
+    private void OnEnable() => QuizTimer.OnTimerUp += OnQuizFinished;
+    private void OnDisable() => QuizTimer.OnTimerUp -= OnQuizFinished;
 
-    public void StartQuiz()
+    public void VotedToStartQuiz()
     {
-        _ = StartCoroutine(StartQuizCR());
+        votedToStart++;
+        DBManager.Singleton.NextUser();
+        if (votedToStart >= DBManager.AmountOfUsers)
+        {
+            readyButton.SetActive(false);
+            _ = StartCoroutine(StartQuizCR());
+        }
 
         IEnumerator StartQuizCR()
         {
@@ -169,7 +181,7 @@ public class QuizManager : MonoBehaviour
             }
             else // Quiz finished
             {
-                QuizFinished();
+                OnQuizFinished();
             }
         }
 
@@ -178,22 +190,39 @@ public class QuizManager : MonoBehaviour
         DBManager.Singleton.NextUser();
     }
 
-    private void QuizFinished()
+    private void OnQuizFinished()
     {
         _ = StartCoroutine(QuizFinishedCR());
 
         IEnumerator QuizFinishedCR()
         {
             OnQuizOver?.Invoke();
-            QuizTimer.OnTimerUp -= QuizFinished;
+
+            int oldScore = DBManager.Singleton.Score;
+            // Calculate score and increase in DBManager.
+            int scoreIncrease = CalculateScore(scorePerAnswer: scorePerAnswer, amountOfCorrectAnswers: answeredCorrect);
+            DBManager.Singleton.IncreaseScore(scoreIncrease);  
+
+            QuizTimer.OnTimerUp -= OnQuizFinished;
 
             answersCorrectText.SetText($"Answers Correct: {answeredCorrect}");
             answersWrongText.SetText($"Answers Wrong: {answeredWrong}");
+            Camera.main.GetComponent<AudioListener>().enabled = false;
+            SceneTransition.TransitionToScene("City", LoadSceneMode.Additive);
 
             yield return new WaitForSeconds(1.5f);
 
             AudioPlayer.PlaySound(clip: quizOverSound);
         }
+    }
+
+    /// <summary>
+    /// Get a score dependent on amount of answers correct.
+    /// </summary>
+    private int CalculateScore(int scorePerAnswer, int amountOfCorrectAnswers)
+    {
+        int scoreIncrease = scorePerAnswer * amountOfCorrectAnswers;
+        return scoreIncrease;
     }
 
     private void ClearQuestionFields()

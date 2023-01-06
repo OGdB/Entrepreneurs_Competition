@@ -15,6 +15,7 @@ public class CityCameraHandler : MonoBehaviour
     [SerializeField]
     private float[] ZoomBounds = new float[] { 17.5f, 60f };
 
+    [SerializeField]
     private Camera cam;
 
     private Vector3 lastPanPosition;
@@ -23,7 +24,11 @@ public class CityCameraHandler : MonoBehaviour
     private bool wasZoomingLastFrame; // Touch mode only
     private Vector2[] lastZoomPositions; // Touch mode only
 
-    private void Awake() => cam = Camera.main;
+    private void Awake()
+    {
+        if (cam == null)
+            cam = Camera.main;
+    }
 
     private void Update()
     {
