@@ -42,9 +42,9 @@ public class WebToggle : OnUIInteractableInteraction
         line.SetActive(state);
     }
 
-    public override void ResetToggle()
+    public override void ResetToggleSelectState()
     {
-        base.ResetToggle();
+        base.ResetToggleSelectState();
         line.SetActive(false);
     }
 }

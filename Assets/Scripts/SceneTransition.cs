@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class SceneTransition : MonoBehaviour
@@ -9,6 +10,7 @@ public class SceneTransition : MonoBehaviour
     public float fadeOutSpeed = 0.8f; // Speed in seconds the screen fades in- and out.
     public float inBetweenWait = 0.5f; // Short interval between transitioning in again.
     public CanvasGroup fadeOutCanvasGroup;
+    private bool isInTransition = false;
 
     private void Awake()
     {
@@ -31,39 +33,46 @@ public class SceneTransition : MonoBehaviour
             fadeOutCanvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public static void TransitionToScene(string sceneName)
+    public static void TransitionToScene(string sceneName) => 
+        Singleton.StartCoroutine(Singleton.WaitForFade(sceneName));
+    public static void TransitionToScene(int sceneInt) => 
+        Singleton.StartCoroutine(Singleton.WaitForFade(sceneInt));
+
+    private IEnumerator WaitForFade(string sceneName)
     {
-        _ = Singleton.StartCoroutine(WaitForFade());
+        if (isInTransition) yield break;
 
-        IEnumerator WaitForFade()
-        {
-            yield return Singleton.Fade(1f);
+        EventSystem.current.enabled = false;
+        isInTransition = true;
 
-            SceneManager.LoadScene(sceneName);
+        yield return Fade(1f);
 
-            yield return new WaitForSeconds(Singleton.inBetweenWait);
+        SceneManager.LoadScene(sceneName);
 
-            yield return Singleton.Fade(0f);
+        yield return new WaitForSeconds(inBetweenWait);
 
-            print("Scene Transition finished");
-        }
+        yield return Fade(0f);
+
+        isInTransition = false;
+        EventSystem.current.enabled = true;
     }
-    public static void TransitionToScene(int sceneInt)
+    private IEnumerator WaitForFade(int sceneInt)
     {
-        _ = Singleton.StartCoroutine(WaitForFade());
+        if (isInTransition) yield break;
 
-        IEnumerator WaitForFade()
-        {
-            yield return Singleton.Fade(1f);
+        EventSystem.current.enabled = false;
+        isInTransition = true;
 
-            SceneManager.LoadScene(sceneInt);
+        yield return Fade(1f);
 
-            yield return new WaitForSeconds(Singleton.inBetweenWait);
+        SceneManager.LoadScene(sceneInt);
 
-            yield return Singleton.Fade(0f);
+        yield return new WaitForSeconds(inBetweenWait);
 
-            print("Scene Transition finished");
-        }
+        yield return Fade(0f);
+
+        isInTransition = false;
+        EventSystem.current.enabled = true;
     }
 
     private IEnumerator Fade(float targetAlpha)

@@ -101,7 +101,7 @@ public class OnUIInteractableInteraction : MonoBehaviour, IPointerEnterHandler, 
         isTransitioning = false;
     }
 
-    public virtual void ResetToggle()
+    public virtual void ResetToggleSelectState()
     {
         GetComponent<Toggle>().SetIsOnWithoutNotify(false);
         _image.color = _onUnselectedColor;
