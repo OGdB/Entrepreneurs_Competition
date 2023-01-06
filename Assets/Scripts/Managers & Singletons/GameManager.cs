@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void IncreaseScore(int amount)
     {
-        DBManager.Singleton.Score += amount;
+        DBManager.Singleton.IncreaseScore(amount);
     }
 
     public void OnQuiz()

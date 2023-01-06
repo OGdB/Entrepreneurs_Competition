@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,8 @@ public class QuizManager : MonoBehaviour
     public QuizQuestionVariants currentQuestionVariant;
     [SerializeField, Space(10)]
     private int amountOfQuestionsToAsk = 3;
+    [SerializeField]
+    private int scorePerAnswer = 10;
     private int votedToStart = 0;
 
     [Header("Question Variants"), SerializeField]
@@ -195,6 +198,12 @@ public class QuizManager : MonoBehaviour
         IEnumerator QuizFinishedCR()
         {
             OnQuizOver?.Invoke();
+
+            int oldScore = DBManager.Singleton.Score;
+            // Calculate score and increase in DBManager.
+            int scoreIncrease = CalculateScore(scorePerAnswer: scorePerAnswer, amountOfCorrectAnswers: answeredCorrect);
+            DBManager.Singleton.IncreaseScore(scoreIncrease);
+
             QuizTimer.OnTimerUp -= QuizFinished;
 
             answersCorrectText.SetText($"Answers Correct: {answeredCorrect}");
@@ -205,6 +214,15 @@ public class QuizManager : MonoBehaviour
 
             AudioPlayer.PlaySound(clip: quizOverSound);
         }
+    }
+
+    /// <summary>
+    /// Get a score dependent on amount of answers correct.
+    /// </summary>
+    private int CalculateScore(int scorePerAnswer, int amountOfCorrectAnswers)
+    {
+        int scoreIncrease = scorePerAnswer * amountOfCorrectAnswers;
+        return scoreIncrease;
     }
 
     private void ClearQuestionFields()

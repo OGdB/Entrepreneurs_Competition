@@ -12,6 +12,10 @@ public class QuizTimer : MonoBehaviour
     private TMPro.TextMeshProUGUI timerText;   
     [SerializeField]
     private TMPro.TextMeshProUGUI resultsScreenTimeLeft;
+    [SerializeField]
+    private AudioClip tickSound;
+    [SerializeField]
+    private float tickVolume = 1f;
 
     private WaitForSeconds second;
 
@@ -42,6 +46,7 @@ public class QuizTimer : MonoBehaviour
         string timeLeft = string.Format("{0:00}:{1:00}", minutesLeft, secondsInMinute);
         resultsScreenTimeLeft.SetText($"Time left: {timeLeft}");
 
+        ResetTimer();
         StopTimer();
     }
 
@@ -71,6 +76,7 @@ public class QuizTimer : MonoBehaviour
             secondsInMinute = Mathf.FloorToInt(secondsLeft % 60);
             minutesLeft = Mathf.FloorToInt(secondsLeft / 60);
             timerText.SetText(string.Format("{0:00}:{1:00}", minutesLeft, secondsInMinute));
+            AudioPlayer.PlaySound(tickSound, tickVolume);
 
             yield return second;
         }
