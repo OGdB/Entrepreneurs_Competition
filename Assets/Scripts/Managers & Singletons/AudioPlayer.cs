@@ -22,6 +22,10 @@ public class AudioPlayer : MonoBehaviour
 
         source = GetComponent<AudioSource>();
     }
+    private void OnDestroy()
+    {
+        Singleton = null;
+    }
 
     public static void PlaySound(AudioClip clip, float volume = 1f) => Singleton.source.PlayOneShot(clip, volume);
     public static void PlaySound(AudioClip clip, float delay, float volume = 1f)

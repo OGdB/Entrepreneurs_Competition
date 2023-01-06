@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class GameManager : MonoBehaviour
 {
     #region Properties
-    public static GameManager _Instance;
+    public static GameManager Singleton;
 
     [Header("Group fields"), SerializeField]
     private Group thisGroup;
@@ -25,22 +25,26 @@ public class GameManager : MonoBehaviour
     public delegate void LevelUp();
     public static LevelUp OnLevelUp { get => onLevelUp; set => onLevelUp = value; }
     private static LevelUp onLevelUp;
+
+    public bool QuizAvailable { get => quizAvailable; set => quizAvailable = value; }
+    private bool quizAvailable = false;
     #endregion
 
     private void Awake()
     {
         // Singleton
         {
-            if (_Instance != null && _Instance != this)
+            if (Singleton != null && Singleton != this)
             {
                 Destroy(this.gameObject);
             }
             else
             {
-                _Instance = this;
+                Singleton = this;
             }
         }
     }
+    private void OnDestroy() => Singleton = null;
 
     private void Start() => CityCameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
 
@@ -108,6 +112,7 @@ public class GameManager : MonoBehaviour
     public void OnQuiz()
     {
         OnQuizReceived?.Invoke();
+        QuizAvailable = true;
     }
 
     public void PressedReady()

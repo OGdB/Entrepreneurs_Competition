@@ -60,8 +60,8 @@ public class QuizManager : MonoBehaviour
     private int votedCorrectly = 0;
     #endregion
 
-    private void OnEnable() => QuizTimer.OnTimerUp += QuizFinished;
-    private void OnDisable() => QuizTimer.OnTimerUp -= QuizFinished;
+    private void OnEnable() => QuizTimer.OnTimerUp += OnQuizFinished;
+    private void OnDisable() => QuizTimer.OnTimerUp -= OnQuizFinished;
 
     public void VotedToStartQuiz()
     {
@@ -182,7 +182,7 @@ public class QuizManager : MonoBehaviour
             }
             else // Quiz finished
             {
-                QuizFinished();
+                OnQuizFinished();
             }
         }
 
@@ -191,7 +191,7 @@ public class QuizManager : MonoBehaviour
         DBManager.Singleton.NextUser();
     }
 
-    private void QuizFinished()
+    private void OnQuizFinished()
     {
         _ = StartCoroutine(QuizFinishedCR());
 
@@ -202,9 +202,9 @@ public class QuizManager : MonoBehaviour
             int oldScore = DBManager.Singleton.Score;
             // Calculate score and increase in DBManager.
             int scoreIncrease = CalculateScore(scorePerAnswer: scorePerAnswer, amountOfCorrectAnswers: answeredCorrect);
-            DBManager.Singleton.IncreaseScore(scoreIncrease);
+            DBManager.Singleton.IncreaseScore(scoreIncrease);  
 
-            QuizTimer.OnTimerUp -= QuizFinished;
+            QuizTimer.OnTimerUp -= OnQuizFinished;
 
             answersCorrectText.SetText($"Answers Correct: {answeredCorrect}");
             answersWrongText.SetText($"Answers Wrong: {answeredWrong}");

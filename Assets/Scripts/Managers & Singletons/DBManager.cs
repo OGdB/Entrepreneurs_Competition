@@ -59,7 +59,7 @@ public class DBManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    private void OnDestroy() => Singleton = null;
     public void LogIn(string name, string classNumber, int score, string groupName = default)
     {
         Users.Add(new(name));
