@@ -55176,6 +55176,7 @@ GameObject:
   - component: {fileID: 1369696986}
   - component: {fileID: 1369696987}
   - component: {fileID: 1369696988}
+  - component: {fileID: 1369696989}
   m_Layer: 5
   m_Name: GroupScreen / Ready For Quiz
   m_TagString: Untagged
@@ -55230,6 +55231,20 @@ MonoBehaviour:
   groupNameText: {fileID: 75323481}
   notReadyColor: {r: 0.99607843, g: 1, b: 0.42745098, a: 1}
   readyColor: {r: 0.45882353, g: 1, b: 0.5058824, a: 1}
+--- !u!114 &1369696989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369696985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e521e86a2f6c7642ae00483746da0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: Here you see who of your group is online and is ready for the quiz, if
+    there is one.
 --- !u!1001 &1378193621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68029,6 +68044,7 @@ GameObject:
   - component: {fileID: 1726161134}
   - component: {fileID: 1726161133}
   - component: {fileID: 1726161132}
+  - component: {fileID: 1726161135}
   m_Layer: 5
   m_Name: Current User Canvas
   m_TagString: Untagged
@@ -68101,6 +68117,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1726161135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726161130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1726326916
 GameObject:
   m_ObjectHideFlags: 0
