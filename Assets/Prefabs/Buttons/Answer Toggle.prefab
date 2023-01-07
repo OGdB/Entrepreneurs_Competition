@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 6083663076437216201}
   - component: {fileID: 6083663076437216203}
   - component: {fileID: 4814291445651091860}
+  - component: {fileID: 6111618067536802941}
   m_Layer: 5
   m_Name: Answer Toggle
   m_TagString: Untagged
@@ -297,3 +298,19 @@ MonoBehaviour:
     rgba: 4294956388
   fadeTransition: 1
   fadeTransitionSpeed: 0.15
+--- !u!111 &6111618067536802941
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6083663076437216198}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 612fdbf0febf72f4fae0ca0b6e28fd28, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 612fdbf0febf72f4fae0ca0b6e28fd28, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0

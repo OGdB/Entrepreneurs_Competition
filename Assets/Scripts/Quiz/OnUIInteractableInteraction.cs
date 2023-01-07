@@ -21,12 +21,14 @@ public class OnUIInteractableInteraction : MonoBehaviour, IPointerEnterHandler, 
     private Coroutine transitionCoroutine;
     private bool isTransitioning = false;
 
+    private Selectable interactable;
     private Image _image;
     #endregion
 
     protected virtual void Awake()
     {
         _image = GetComponent<Image>();
+        interactable = GetComponent<Selectable>();
     }
 
     /// <summary>
@@ -50,16 +52,18 @@ public class OnUIInteractableInteraction : MonoBehaviour, IPointerEnterHandler, 
     /// </summary>
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-
-        if (fadeTransition)
+        if (interactable.interactable)
         {
-            if (isTransitioning) StopCoroutine(transitionCoroutine);
+            if (fadeTransition)
+            {
+                if (isTransitioning) StopCoroutine(transitionCoroutine);
 
-            transitionCoroutine = StartCoroutine(FadeColor(_onHoverColor));
-        }
-        else
-        {
-            _image.color = _onHoverColor;
+                transitionCoroutine = StartCoroutine(FadeColor(_onHoverColor));
+            }
+            else
+            {
+                _image.color = _onHoverColor;
+            }
         }
     }
 
@@ -68,15 +72,18 @@ public class OnUIInteractableInteraction : MonoBehaviour, IPointerEnterHandler, 
     /// </summary>
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        if (fadeTransition)
+        if (interactable.interactable)
         {
-            if (isTransitioning) StopCoroutine(transitionCoroutine);
+            if (fadeTransition)
+            {
+                if (isTransitioning) StopCoroutine(transitionCoroutine);
 
-            transitionCoroutine = StartCoroutine(FadeColor(_onUnselectedColor));
-        }
-        else
-        {
-            _image.color = _onUnselectedColor;
+                transitionCoroutine = StartCoroutine(FadeColor(_onUnselectedColor));
+            }
+            else
+            {
+                _image.color = _onUnselectedColor;
+            }
         }
     }
 

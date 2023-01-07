@@ -152,6 +152,7 @@ public class QuizManager : MonoBehaviour
             // If more than half of the group voted for the correct answer, they get points.
             float percentageVotedCorrect = votedCorrectly / (float)AmountOfConfirmedVotes;
             print($"Percentage voted correctly = {percentageVotedCorrect * 100 }%");
+
             if (percentageVotedCorrect >= 0.5f)
             {
                 answeredCorrect++;
@@ -164,24 +165,46 @@ public class QuizManager : MonoBehaviour
             }
 
             // After everyone voted, reset these values for the next question.
-            amountOfConfirmedVotes= 0;
+            amountOfConfirmedVotes = 0;
             VotedCorrectly = 0;
+
+            _ = StartCoroutine(ShowCorrectAnswerAnimation());
             
-            // Then, move to the next question.
-            if (currentQuestionInt < questions.Length - 1)
+            IEnumerator ShowCorrectAnswerAnimation()
             {
-                ClearQuestionFields();
-                currentQuestionInt++;
+                // Animation showing which answers were correct.
+                foreach (var correctAnswer in quizQuestionVariant.CorrectAnswerToggles)
+                {
+                    correctAnswer.GetComponent<Animation>().Play();
+                }
+                foreach (var toggle in quizQuestionVariant.AnswerToggles)
+                {
+                    toggle.interactable = false;
+                }
+                // Wait until the animation is done playing.
+                yield return new WaitUntil(() => !quizQuestionVariant.CorrectAnswerToggles[0].GetComponent<Animation>().isPlaying);
 
-                questionNumberText.SetText($"Question {currentQuestionInt + 1} / {questions.Length}");
+                foreach (var toggle in quizQuestionVariant.AnswerToggles)
+                {
+                    toggle.interactable = true;
+                }
 
-                quizQuestionVariant.ResetToggles();
-                SetToCurrentQuestion();
-                return;
-            }
-            else // Quiz finished
-            {
-                OnQuizFinished();
+                // Then, move to the next question.
+                if (currentQuestionInt < questions.Length - 1)
+                {
+                    ClearQuestionFields();
+                    currentQuestionInt++;
+
+                    questionNumberText.SetText($"Question {currentQuestionInt + 1} / {questions.Length}");
+
+                    quizQuestionVariant.ResetToggles();
+                    SetToCurrentQuestion();
+                    yield break;
+                }
+                else // Quiz finished
+                {
+                    OnQuizFinished();
+                }
             }
         }
 

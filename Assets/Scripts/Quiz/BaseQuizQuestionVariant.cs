@@ -10,14 +10,18 @@ public class BaseQuizQuestionVariant : MonoBehaviour
     public QuizQuestionVariants ThisVariant { get => thisVariant; protected set => thisVariant = value; }
     private QuizQuestionVariants thisVariant;
 
+    public QuizQuestionContainer CurrentQuestion { get => currentQuestion; private set => currentQuestion = value; }
+    private QuizQuestionContainer currentQuestion;
     [SerializeField, Space(5)]
     private TextMeshProUGUI questionText;
     [SerializeField]
     private GameObject confirmButton;
 
-    [SerializeField]
-    protected Toggle[] answerToggles;
+    public Toggle[] AnswerToggles { get => answerToggles; private set => answerToggles = value; }
+    [SerializeField] private Toggle[] answerToggles;
     private List<Toggle> unoccupiedToggles;  // The toggles that do not have an answer put into them yet.
+    public List<Toggle> CorrectAnswerToggles { get => correctAnswerToggles; private set => correctAnswerToggles = value; }
+    private List<Toggle> correctAnswerToggles = new();  // The toggles that do not have an answer put into them yet.
 
     public List<Answer> AnsweredList { get => answeredList; private set => answeredList = value; }
     List<Answer> answeredList = new();
@@ -32,7 +36,7 @@ public class BaseQuizQuestionVariant : MonoBehaviour
     #endregion
 
 
-    protected virtual void Awake() => unoccupiedToggles = new(answerToggles);
+    protected virtual void Awake() => unoccupiedToggles = new(AnswerToggles);
 
     protected virtual void Start()
     {
@@ -42,6 +46,8 @@ public class BaseQuizQuestionVariant : MonoBehaviour
 
     public virtual void SetQuestion(QuizQuestionContainer question)
     {
+        currentQuestion = question;
+
         questionText.SetText(question.question);
         amountOfCorrectAnswers = question.correctAnswers.Length;
 
@@ -52,6 +58,9 @@ public class BaseQuizQuestionVariant : MonoBehaviour
             Toggle toggle = GetRandomAnswerToggle();
             toggle.GetComponentInChildren<TextMeshProUGUI>().SetText(answer.answer);
             toggle.onValueChanged.AddListener(delegate { AnswerToggled(toggle.isOn, answer); });
+
+            if (answer.isCorrect)
+                CorrectAnswerToggles.Add(toggle);
         }
 
         foreach (Toggle unusedToggle in unoccupiedToggles)
@@ -109,13 +118,17 @@ public class BaseQuizQuestionVariant : MonoBehaviour
     public virtual void ResetToggles(bool resetToggles = true)
     {
         if (resetToggles)
-            unoccupiedToggles = new(answerToggles);
+        {
+            unoccupiedToggles = new(AnswerToggles);
+            CorrectAnswerToggles.Clear();
+        }
 
         correctAnswersSelected = false;
         amountOfCorrectAnswersSelected = 0;
         amountOfAnswersSelected = 0;
         confirmButton.SetActive(false);
         AnsweredList.Clear();
+        CurrentQuestion = null;
 
         foreach (var toggle in GetComponentsInChildren<OnUIInteractableInteraction>(true))
         {
