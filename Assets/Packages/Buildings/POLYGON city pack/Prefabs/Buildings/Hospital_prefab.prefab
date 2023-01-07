@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4473089879916392}
   - component: {fileID: -1806461782707633186}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Hospital_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
