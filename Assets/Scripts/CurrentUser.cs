@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Put on a TMPro.UGUI element to make it show the user who's turn it is.
@@ -25,11 +26,29 @@ public class CurrentUser : MonoBehaviour
         }
 
         frame = new();
+        GetComponentInParent<Canvas>().worldCamera = Camera.main;
         SetToCurrentUser();
     }
 
-    private void OnEnable() => DBManager.OnCurrentUserChanged += SetToCurrentUser;
-    private void OnDisable() => DBManager.OnCurrentUserChanged -= SetToCurrentUser;
+
+
+    private void OnEnable()
+    {
+        DBManager.OnCurrentUserChanged += SetToCurrentUser;
+        SceneManager.activeSceneChanged += ChangedActiveScene;
+    }
+
+    private void ChangedActiveScene(Scene arg0, Scene arg1)
+    {
+        GetComponentInParent<Canvas>().worldCamera = Camera.main;
+    }
+
+    private void OnDisable()
+    {
+        DBManager.OnCurrentUserChanged -= SetToCurrentUser;
+        SceneManager.activeSceneChanged -= ChangedActiveScene;
+    }
+
     private void SetToCurrentUser()
     {
         GetComponent<TMPro.TextMeshProUGUI>().SetText(DBManager.Singleton.currentUser.Name);

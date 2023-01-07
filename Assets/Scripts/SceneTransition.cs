@@ -18,13 +18,13 @@ public class SceneTransition : MonoBehaviour
         {
             Singleton = this;
             DontDestroyOnLoad(gameObject);
-            return;
         }
         else
         {
             Destroy(gameObject);
-            return;
         }
+
+        GetComponentInParent<Canvas>().worldCamera = Camera.main;
     }
 
     private void Start()
@@ -71,15 +71,16 @@ public class SceneTransition : MonoBehaviour
 
         yield return Fade(0f);
 
+        GetComponentInParent<Canvas>().worldCamera = Camera.main;
         isInTransition = false;
         EventSystem.current.enabled = true;
     }
 
-    private IEnumerator Fade(float targetAlpha)
+    public static IEnumerator Fade(float targetAlpha)
     {
         float startTime = Time.time;
 
-        float start = targetAlpha == 1f? 0f : 1f;
+        float start = Singleton.fadeOutCanvasGroup.alpha;
         float target = targetAlpha;
 
         float progress = 0f;
@@ -87,11 +88,11 @@ public class SceneTransition : MonoBehaviour
         while (progress <= 1f)
         {
             float timeSinceStarted = Time.time - startTime;
-            progress = timeSinceStarted / fadeOutSpeed;
+            progress = timeSinceStarted / Singleton.fadeOutSpeed;
 
             float newAlpha = Mathf.Lerp(start, target, progress);
             
-            fadeOutCanvasGroup.alpha = newAlpha;
+            Singleton.fadeOutCanvasGroup.alpha = newAlpha;
 
             yield return null;
         }

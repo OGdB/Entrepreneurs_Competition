@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoLogin: 1
-  instantlyToQuiz: 1
+  instantlyToQuiz: 0
   playerDisplay: {fileID: 1224272202}
   registerButton: {fileID: 1065804629}
   loginButton: {fileID: 438636576}
@@ -1453,8 +1453,8 @@ Canvas:
   m_GameObject: {fileID: 1199285569}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2178,7 +2178,7 @@ Canvas:
   m_GameObject: {fileID: 1641713410}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

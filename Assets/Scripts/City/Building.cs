@@ -16,4 +16,7 @@ public class Building : MonoBehaviour
             transform.Translate(Vector3.up * halfBuildingHeight);
         }
     }
+
+    public void AccentuateBuilding() => Accentuate.AccentuateObject(gameObject, 0.5f);
+    public void UnaccentuateBuilding() => Accentuate.UnAccentuateObject(gameObject);
 }

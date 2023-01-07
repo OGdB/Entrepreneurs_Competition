@@ -6,12 +6,12 @@ using UnityEngine;
 /// </summary>
 public class Group : MonoBehaviour
 {
-    private int groupNumber;
     public int GroupLevel { get => groupLevel; }
+
     [SerializeField]
     private int groupLevel = 0;
-    [SerializeField]
-    private Building groupBuilding;
+    public Building GroupBuilding { get => groupBuilding; private set => groupBuilding = value; }
+    [SerializeField] private Building groupBuilding;
 
     private GameObject currentBuilding;
 
@@ -37,12 +37,12 @@ public class Group : MonoBehaviour
         if (currentBuilding)
         {
             Destroy(currentBuilding);
-            groupBuilding = null;
+            GroupBuilding = null;
         }
 
         currentBuilding = Instantiate(GameManager.Singleton.Order.GetBuilding(currentLevel), transform);
         currentBuilding.transform.position = transform.position;
-        groupBuilding = currentBuilding.GetComponent<Building>();
+        GroupBuilding = currentBuilding.GetComponent<Building>();
     }
 
     public void OnLevelUp()

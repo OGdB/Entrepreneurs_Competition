@@ -6,6 +6,7 @@ public class BuildingUpgradeOrder : ScriptableObject
     [SerializeField]
     private GameObject[] buildingOrder;
     public int GetOrderLength() => buildingOrder.Length;
+
     public GameObject GetBuilding(int index)
     {
         if (index <= buildingOrder.Length)
