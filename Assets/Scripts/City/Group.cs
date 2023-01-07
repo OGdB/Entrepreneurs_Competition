@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -18,10 +19,12 @@ public class Group : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnLevelUp += OnLevelUp;
+        OnQuizResultsClose.OnQuizResultsClosed += OnLevelUp;  // Level up regardless of how much score increase
     }
     private void OnDisable()
     {
         GameManager.OnLevelUp -= OnLevelUp;
+        OnQuizResultsClose.OnQuizResultsClosed -= OnLevelUp;
     }
 
     private void Start()
@@ -44,14 +47,25 @@ public class Group : MonoBehaviour
 
     public void OnLevelUp()
     {
-        if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
+        _ = StartCoroutine(LevelUpAnimation());
+
+        IEnumerator LevelUpAnimation()
         {
-            groupLevel++;
-            GetCurrentBuilding(groupLevel);
-        }
-        else
-        {
-            print("Maximum building level reached!");
+            print("Start Level Up Notification / Draw Attention to Building.");
+
+            yield return new WaitForSeconds(2f);
+
+            print("Upgrade the building");
+
+            if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
+            {
+                groupLevel++;
+                GetCurrentBuilding(groupLevel);
+            }
+            else
+            {
+                print("Maximum building level reached!");
+            }
         }
     }
 

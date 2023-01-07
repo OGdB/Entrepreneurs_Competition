@@ -24195,7 +24195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 525b9ab1aa5205942ba18f1dc43e03ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupLevel: 0
+  groupLevel: 16
   groupBuilding: {fileID: 0}
 --- !u!1001 &600654501
 PrefabInstance:
@@ -79610,8 +79610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054a040ae4c6e2a4e843e850517ad293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownLength: 5
-  tickVolume: 0.5
+  countdownLength: 3
+  tickVolume: 0.3
   secondsLeftText: {fileID: 785423567}
   UI: {fileID: 708423044}
   tickSound: {fileID: 8300000, guid: 98c2c84ac8ba42f4d96e24dbb9d605ce, type: 3}

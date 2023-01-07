@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoLogin: 1
-  instantlyToQuiz: 0
+  instantlyToQuiz: 1
   playerDisplay: {fileID: 1224272202}
   registerButton: {fileID: 1065804629}
   loginButton: {fileID: 438636576}
