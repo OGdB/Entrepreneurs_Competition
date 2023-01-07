@@ -23,7 +23,10 @@ public class QuizPopup : MonoBehaviour
 
     public void PlayQuickPopUpAnimation() => QuizPopupAnimation.Play();
 
-    public void OnQuizReceived() => PlayQuickPopUpAnimation();
+    public void OnQuizReceived()
+    {
+        PlayQuickPopUpAnimation();
+    }
 
     public void PressedLater() => gameObject.SetActive(false);
 
