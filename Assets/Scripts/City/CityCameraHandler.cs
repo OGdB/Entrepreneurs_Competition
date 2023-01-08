@@ -159,10 +159,6 @@ public class CityCameraHandler : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-
-        Gizmos.DrawSphere(Vector3.zero, 5f);
-
         Gizmos.color = Color.yellow;
 
         Vector3 forward = transform.forward;
