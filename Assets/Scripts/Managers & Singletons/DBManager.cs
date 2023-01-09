@@ -64,6 +64,18 @@ public class DBManager : MonoBehaviour
             Singleton = null;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif    
+        }
+    }
+
     public void LogIn(string name, string classNumber, int score, string groupName = default)
     {
         Users.Add(new(name));
