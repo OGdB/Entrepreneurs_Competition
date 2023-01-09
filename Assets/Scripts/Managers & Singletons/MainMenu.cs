@@ -76,6 +76,6 @@ public class MainMenu : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #else
          Application.Quit();
-#endif    
+#endif
     }
 }
