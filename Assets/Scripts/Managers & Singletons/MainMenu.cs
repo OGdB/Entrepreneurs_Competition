@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     [Space(5), Tooltip("Log in with test accounts")]
     public bool autoLogin = false;
     public bool instantlyToQuiz = false;
+    public bool instantlyToCity = false;
     private static bool loggedIn = false;
 
     [Space(10), Header("Assignables")]
@@ -30,6 +31,10 @@ public class MainMenu : MonoBehaviour
             if (instantlyToQuiz)
             {
                 SceneManager.LoadScene("Quiz");
+            }
+            if (instantlyToCity)
+            {
+                SceneManager.LoadScene("City");
             }
         }
     }
