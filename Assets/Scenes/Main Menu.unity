@@ -1298,7 +1298,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoLogin: 1
   instantlyToQuiz: 0
-  instantlyToCity: 1
+  instantlyToCity: 0
+  instantlyToTestCity: 1
   playerDisplay: {fileID: 1224272202}
   registerButton: {fileID: 1065804629}
   loginButton: {fileID: 438636576}

@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public bool autoLogin = false;
     public bool instantlyToQuiz = false;
     public bool instantlyToCity = false;
+    public bool instantlyToTestCity = false;
     private static bool loggedIn = false;
 
     [Space(10), Header("Assignables")]
@@ -35,6 +36,10 @@ public class MainMenu : MonoBehaviour
             if (instantlyToCity)
             {
                 SceneManager.LoadScene("City");
+            }
+            if (instantlyToTestCity)
+            {
+                SceneManager.LoadScene("City Sandbox 2");
             }
         }
     }

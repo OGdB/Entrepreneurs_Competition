@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/CityOLD.unity
     guid: 0c88f3b725aa9604ea379ea811243611
+  - enabled: 1
+    path: Assets/Scenes/testing sandbox/City Sandbox 2.unity
+    guid: 4ed95d03b14a9e34ca4fd4e2c5df02d0
   m_configObjects: {}
