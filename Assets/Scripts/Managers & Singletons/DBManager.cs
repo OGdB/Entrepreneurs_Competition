@@ -15,6 +15,8 @@ public class DBManager : MonoBehaviour
     public string ClassNumber = null;
     public string GroupName = null;
     public int PreviousScore = -1;
+
+    public string otherRandomGroupName = "SpaceX";
     public void IncreaseScore(int increase)
     {
         OldScore = Score;

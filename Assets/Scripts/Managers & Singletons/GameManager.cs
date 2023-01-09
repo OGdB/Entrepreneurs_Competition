@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Singleton;
 
     [Header("Group fields"), SerializeField]
-    private Group thisGroup;
+    private CompanyBuilding playerBuilding;
 
     public BuildingUpgradeOrder Order { get => order; }
 
@@ -50,13 +50,13 @@ public class GameManager : MonoBehaviour
         if (Singleton == this)
             Singleton = null;
     }
-    private void Start() => CityCameraHandler.CenterCameraOnPoint(thisGroup.transform.position);
+    private void Start() => CityCameraHandler.CenterCameraOnPoint(playerBuilding.transform.position);
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            thisGroup.OnLevelUp();
+            playerBuilding.OnLevelUp();
             OnLevelUp?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Q))
