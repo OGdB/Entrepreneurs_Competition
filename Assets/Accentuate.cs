@@ -74,13 +74,13 @@ public class Accentuate : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            FindObjectOfType<Group>().GroupBuilding.AccentuateBuilding();
+            FindObjectOfType<CompanyBuilding>().AccentuateBuilding();
             StartAccentuation(0.5f);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
             StopAccentuation();
-            FindObjectOfType<Group>().GroupBuilding.UnaccentuateBuilding();
+            FindObjectOfType<CompanyBuilding>().UnaccentuateBuilding();
         }
     }
 }

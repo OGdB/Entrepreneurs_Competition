@@ -15,8 +15,8 @@ public class Outline : MonoBehaviour
     [SerializeField, Tooltip("Precompute enabled: Per-vertex calculations are performed in the editor and serialized with the object. Precompute disabled: Per-vertex calculations are performed at runtime in Awake(). This may cause a pause for large meshes.")] private bool precomputeOutline = false;
     [SerializeField] private bool includeSubMeshes = false;
 
-    [SerializeField, HideInInspector] private List<Mesh> bakeKeys = new List<Mesh>();
-    [SerializeField, HideInInspector] private List<ListVector3> bakeValues = new List<ListVector3>();
+    [SerializeField, HideInInspector] private List<Mesh> bakeKeys = new();
+    [SerializeField, HideInInspector] private List<ListVector3> bakeValues = new();
 
     private Renderer[] renderers;
     private Material outlineMaskMaterial;
@@ -67,6 +67,11 @@ public class Outline : MonoBehaviour
 
     #region Methods
     private void Awake()
+    {
+        RecalculateBounds();
+    }
+
+    public void RecalculateBounds()
     {
         if (includeSubMeshes)
         {
