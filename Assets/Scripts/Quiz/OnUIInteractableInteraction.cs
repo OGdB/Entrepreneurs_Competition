@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
 public class OnUIInteractableInteraction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     #region Properties
@@ -22,12 +21,12 @@ public class OnUIInteractableInteraction : MonoBehaviour, IPointerEnterHandler, 
     private bool isTransitioning = false;
 
     private Selectable interactable;
-    private Image _image;
+    private MaskableGraphic _image;
     #endregion
 
     protected virtual void Awake()
     {
-        _image = GetComponent<Image>();
+        _image = GetComponent<MaskableGraphic>();
         interactable = GetComponent<Selectable>();
     }
 

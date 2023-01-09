@@ -8,6 +8,8 @@ public class MainMenu : MonoBehaviour
     [Space(5), Tooltip("Log in with test accounts")]
     public bool autoLogin = false;
     public bool instantlyToQuiz = false;
+    public bool instantlyToCity = false;
+    public bool instantlyToTestCity = false;
     private static bool loggedIn = false;
 
     [Space(10), Header("Assignables")]
@@ -30,6 +32,14 @@ public class MainMenu : MonoBehaviour
             if (instantlyToQuiz)
             {
                 SceneManager.LoadScene("Quiz");
+            }
+            if (instantlyToCity)
+            {
+                SceneManager.LoadScene("City");
+            }
+            if (instantlyToTestCity)
+            {
+                SceneManager.LoadScene("City Sandbox 2");
             }
         }
     }
@@ -60,8 +70,17 @@ public class MainMenu : MonoBehaviour
         playButton.interactable = DBManager.LoggedIn();
     }
 
-    public void GoToRegisterScene() => SceneManager.LoadScene(1);
-    public void GoToLoginScene() => SceneManager.LoadScene(2);
-    public void GoToGameScene() => SceneTransition.TransitionToScene(3);
-    public void GoToLeaderboard() => SceneManager.LoadScene(4);
+    public void GoToRegisterScene() => SceneManager.LoadScene("Register Menu");
+    public void GoToLoginScene() => SceneManager.LoadScene("Login Menu");
+    public void GoToGameScene() => SceneTransition.TransitionToScene("City");
+    public void GoToLeaderboard() => SceneManager.LoadScene("Leaderboard");
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
+    }
 }
