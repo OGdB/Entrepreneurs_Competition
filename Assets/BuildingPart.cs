@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildingPart : MonoBehaviour
@@ -14,11 +13,11 @@ public class BuildingPart : MonoBehaviour
     private void OnMouseEnter()
     {
         GetComponentInParent<Outline>().enabled = true;
-        print("Show UI!");
+        GetComponentInParent<CompanyBuilding>().ShowBuildingInfo();
     }
     private void OnMouseExit()
     {
         GetComponentInParent<Outline>().enabled = false;
-        print("Hide UI!");
+        GetComponentInParent<CompanyBuilding>().HideBuildingInfo();
     }
 }

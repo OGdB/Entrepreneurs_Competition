@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            OnQuiz();
+            TriggerQuiz();
         }
     }
 
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void IncreaseScore(int amount) => DBManager.Singleton.IncreaseScore(amount);
 
-    public void OnQuiz()
+    public void TriggerQuiz()
     {
         QuizAvailable = true;
         OnQuizReceived?.Invoke();

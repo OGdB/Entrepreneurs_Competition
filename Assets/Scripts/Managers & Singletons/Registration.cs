@@ -54,6 +54,11 @@ public class Registration : MonoBehaviour
                     registrationCanvas.SetActive(false);
                     loginCanvas.SetActive(true);
                     errorText.gameObject.SetActive(false);
+
+                    nameField.text = "";
+                    classField.text = "";
+                    groupField.text = "";
+                    passwordField.text = "";
                 }
                 else
                 {

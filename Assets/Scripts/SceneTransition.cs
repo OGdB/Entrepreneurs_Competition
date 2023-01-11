@@ -50,6 +50,7 @@ public class SceneTransition : MonoBehaviour
         SceneManager.LoadScene(sceneName, mode);
 
         yield return new WaitForSeconds(inBetweenWait);
+        GetComponentInParent<Canvas>().worldCamera = Camera.main;
 
         yield return Fade(0f);
 
@@ -68,10 +69,10 @@ public class SceneTransition : MonoBehaviour
         SceneManager.LoadScene(sceneInt, mode);
 
         yield return new WaitForSeconds(inBetweenWait);
+        GetComponentInParent<Canvas>().worldCamera = Camera.main;
 
         yield return Fade(0f);
 
-        GetComponentInParent<Canvas>().worldCamera = Camera.main;
         isInTransition = false;
         EventSystem.current.enabled = true;
     }

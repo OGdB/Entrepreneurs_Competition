@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Accentuate : MonoBehaviour
@@ -21,7 +20,12 @@ public class Accentuate : MonoBehaviour
 
     public static void AccentuateObject(GameObject obj, float targetAlpha)
     {
-        obj.layer = LayerMask.NameToLayer("Accentuated");
+        obj.GetComponent<Outline>().enabled = true;
+        foreach (Transform child in obj.GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Accentuated");
+        }
+
         _ = Singleton.StartCoroutine(SceneTransition.Fade(targetAlpha));
     }
     public static void UnAccentuateObject(GameObject obj)
@@ -33,29 +37,9 @@ public class Accentuate : MonoBehaviour
         {
             yield return Singleton.StartCoroutine(SceneTransition.Fade(0f));
 
-            obj.layer = LayerMask.NameToLayer("Default");
-        }
-    }
-
-    public static void AccentuateObject(List<GameObject> list, float targetAlpha)
-    {
-        foreach (var obj in list)
-        {
-            obj.layer = LayerMask.NameToLayer("Accentuated");
-        }
-    }
-    public static void UnaccentuateObject(List<GameObject> list)
-    {
-        // Wait until the fadeout is done before putting the object back in Default.
-        _ = Singleton.StartCoroutine(FadeOut());
-
-        IEnumerator FadeOut()
-        {
-            yield return Singleton.StartCoroutine(SceneTransition.Fade(0f));
-
-            foreach (var obj in list)
+            foreach (Transform child in obj.GetComponentsInChildren<Transform>())
             {
-                obj.layer = LayerMask.NameToLayer("Default");
+                child.gameObject.layer = LayerMask.NameToLayer("Default");
             }
         }
     }

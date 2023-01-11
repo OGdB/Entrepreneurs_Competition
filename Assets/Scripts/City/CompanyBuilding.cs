@@ -74,7 +74,8 @@ public class CompanyBuilding : MonoBehaviour
         textTransform.GetComponent<Hover>().basePosition = textPos;
     }
 
-    public void AccentuateBuilding() => Accentuate.AccentuateObject(gameObject, 0.5f);
+    public void AccentuateBuilding() => Accentuate.AccentuateObject(gameObject, 0.6f);
+
     public void UnaccentuateBuilding() => Accentuate.UnAccentuateObject(gameObject);
 
     public void OnLevelUp()
@@ -99,5 +100,31 @@ public class CompanyBuilding : MonoBehaviour
                 print("Maximum building level reached!");
             }
         }
+    }
+
+    /// <summary>
+    /// Show info on this business
+    /// </summary>
+    internal void ShowBuildingInfo()
+    {
+        if (isPlayerBuilding)
+        {
+            BuildingInfoPopUp.SetPopUpText($"{DBManager.Singleton.GroupName}\n" +
+                $"Net Worth: {string.Format("{0:C}", DBManager.Singleton.Score)}\n" +
+                $"Business Level {DBManager.Singleton.Level}");
+        }
+        else
+        {
+            BuildingInfoPopUp.SetPopUpText("Apple\n" +
+    "Net Worth: $1,745,000.000\n" +
+    "Business Level 7");
+        }
+    }
+    /// <summary>
+    /// Hide info on this business
+    /// </summary>
+    internal void HideBuildingInfo()
+    {
+        BuildingInfoPopUp.HidePopUpText();
     }
 }

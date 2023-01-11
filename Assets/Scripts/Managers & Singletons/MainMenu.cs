@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour
             }
             if (instantlyToCity)
             {
-                SceneManager.LoadScene("City");
+                SceneTransition.TransitionToScene("City");
             }
             if (instantlyToTestCity)
             {
@@ -62,14 +62,10 @@ public class MainMenu : MonoBehaviour
                     loggedInUsers += ", ";
             }
 
-            playerDisplay.SetText($"Player: {loggedInUsers}");
+            playerDisplay.SetText($"Users logged in: {loggedInUsers}");
         }
         else
             playerDisplay.SetText("No user logged in");
-
-/*        loginButton.interactable = !DBManager.LoggedIn;
-        registerButton.interactable = !DBManager.LoggedIn;
-        playButton.interactable = DBManager.LoggedIn();*/
     }
 
     public void GoToRegisterScene() => SceneManager.LoadScene("Register Menu");

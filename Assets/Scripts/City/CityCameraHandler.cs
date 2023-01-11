@@ -17,6 +17,8 @@ public class CityCameraHandler : MonoBehaviour
 
     [SerializeField]
     private Camera cam;
+    [SerializeField]
+    private Camera accentCam;
 
     private Vector3 lastPanPosition;
     private int panFingerId; // Touch mode only
@@ -140,6 +142,7 @@ public class CityCameraHandler : MonoBehaviour
         }
 
         cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (offset * speed), ZoomBounds[0], ZoomBounds[1]);
+        accentCam.fieldOfView = cam.fieldOfView;
     }
 
     /// <summary>

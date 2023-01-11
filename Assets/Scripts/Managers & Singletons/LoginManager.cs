@@ -26,7 +26,8 @@ public class LoginManager : MonoBehaviour
     {
         if (DBManager.LoggedIn(nameField.text)) return;
 
-        _ = StartCoroutine(LoginCR(nameField.text, passwordField.text));
+        if (nameField.text.Length> 0 && passwordField.text.Length>0)
+            _ = StartCoroutine(LoginCR(nameField.text, passwordField.text));
     }
 
     public static IEnumerator LoginCR(string username, string password)

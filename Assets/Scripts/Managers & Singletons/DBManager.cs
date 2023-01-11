@@ -17,18 +17,9 @@ public class DBManager : MonoBehaviour
     public int PreviousScore = -1;
 
     public string otherRandomGroupName = "SpaceX";
-    public void IncreaseScore(int increase)
-    {
-        OldScore = Score;
-        Score = OldScore + increase;
-    }
-    public void InitiateScore(int score)
-    {
-        OldScore= score;
-        Score = score;
-    }
     public int OldScore { get; private set; } = -1;
     public int Score { get; private set; } = -1;
+    public int Level { get; private set; } = 6;
 
     public delegate void Login();
     public static Login OnLogin;
@@ -39,6 +30,17 @@ public class DBManager : MonoBehaviour
     public delegate void PressedReady(bool allReady);
     public static PressedReady OnPressedReady;
 
+
+    public void IncreaseScore(int increase)
+    {
+        OldScore = Score;
+        Score = OldScore + increase;
+    }
+    public void InitiateScore(int score)
+    {
+        OldScore = score;
+        Score = score;
+    }
     // Logged in if there is an username.
     public static bool LoggedIn() => Singleton.Users.Count > 0;
     public static bool LoggedIn(string username)
