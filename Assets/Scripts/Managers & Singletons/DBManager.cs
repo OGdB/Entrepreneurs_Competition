@@ -30,6 +30,9 @@ public class DBManager : MonoBehaviour
     public int OldScore { get; private set; } = -1;
     public int Score { get; private set; } = -1;
 
+    public delegate void Login();
+    public static Login OnLogin;
+
     public delegate void CurrentUserChanged();
     public static CurrentUserChanged OnCurrentUserChanged;
 
@@ -92,6 +95,8 @@ public class DBManager : MonoBehaviour
 
         if (Score == -1)
             Score = score;
+
+        OnLogin?.Invoke();
     }
 
     public void NextUser()

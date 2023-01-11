@@ -14,8 +14,6 @@ public class MainMenu : MonoBehaviour
 
     [Space(10), Header("Assignables")]
     public TMPro.TextMeshProUGUI playerDisplay;
-    public Button registerButton;
-    public Button loginButton;
     public Button playButton;
 
     private IEnumerator Start()
@@ -44,7 +42,11 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    private void OnEnable() => SetUI();
+    private void OnEnable()
+    {
+        DBManager.OnLogin += SetUI;
+        SetUI();
+    }
 
     private void SetUI()
     {
@@ -66,8 +68,8 @@ public class MainMenu : MonoBehaviour
             playerDisplay.SetText("No user logged in");
 
 /*        loginButton.interactable = !DBManager.LoggedIn;
-        registerButton.interactable = !DBManager.LoggedIn;*/
-        playButton.interactable = DBManager.LoggedIn();
+        registerButton.interactable = !DBManager.LoggedIn;
+        playButton.interactable = DBManager.LoggedIn();*/
     }
 
     public void GoToRegisterScene() => SceneManager.LoadScene("Register Menu");
