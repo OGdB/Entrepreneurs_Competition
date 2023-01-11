@@ -20,7 +20,7 @@ public class Accentuate : MonoBehaviour
 
     public static void AccentuateObject(GameObject obj, float targetAlpha)
     {
-        obj.GetComponent<Outline>().enabled = true;
+        obj.GetComponentInChildren<Outline>().enabled = true;
         foreach (Transform child in obj.GetComponentsInChildren<Transform>())
         {
             child.gameObject.layer = LayerMask.NameToLayer("Accentuated");

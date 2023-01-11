@@ -18,9 +18,6 @@ public class CompanyBuilding : MonoBehaviour
 
     public bool isPlayerBuilding = false;
 
-    [SerializeField]
-    private AudioClip levelupMusic;
-
 
     private void Awake() => textStartPos = textTransform.position;
     private void Start()
@@ -60,6 +57,10 @@ public class CompanyBuilding : MonoBehaviour
         //currentBuilding.transform.localPosition = Vector3.zero;
         GetComponentInChildren<Outline>().RecalculateBounds();
 
+        if (isPlayerBuilding)
+            GetComponentInChildren<Outline>().OutlineColor=  Color.green;
+
+
         buildingSpawned = true;
     }
 
@@ -89,20 +90,26 @@ public class CompanyBuilding : MonoBehaviour
 
         IEnumerator LevelUpAnimation()
         {
-            print("Start Level Up Notification / Draw Attention to Building.");
-
-            yield return new WaitForSeconds(2f);
-
-            print("Upgrade the building");
-
-            if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
+            if (isPlayerBuilding)
             {
-                groupLevel++;
-                GetCurrentBuilding(groupLevel);
-            }
-            else
-            {
-                print("Maximum building level reached!");
+                print("Start Level Up Notification / Draw Attention to Building.");
+
+                yield return new WaitForSeconds(2f);
+
+                print("Upgrade the building");
+
+                if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
+                {
+                    groupLevel++;
+                    GetCurrentBuilding(groupLevel);
+                    SetTextPosition();
+                    GetComponent<AudioSource>().Play();
+                    GetComponentInChildren<Outline>().enabled = true;
+                }
+                else
+                {
+                    print("Maximum building level reached!");
+                }
             }
         }
     }
