@@ -54,7 +54,7 @@ public class CompanyBuilding : MonoBehaviour
         }
 
         currentBuilding = Instantiate(GameManager.Singleton.Order.GetBuilding(currentLevel), transform);
-        currentBuilding.transform.position = transform.position;
+        //currentBuilding.transform.localPosition = Vector3.zero;
         buildingSpawned = true;
     }
 
