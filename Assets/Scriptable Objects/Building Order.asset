@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Building Order
   m_EditorClassIdentifier: 
   buildingOrder:
-  - {fileID: 2100507680273221464, guid: acbe4d9e492de914daa0d650cd0beaff, type: 3}
+  - {fileID: 8932910134812401103, guid: b3fbddef8e656dc43808eb8b3a6049b7, type: 3}
+  - {fileID: 3700380536999968781, guid: 2aa499ba9de4036499c5189780ce7058, type: 3}

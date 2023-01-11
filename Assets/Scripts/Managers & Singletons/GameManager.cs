@@ -52,19 +52,6 @@ public class GameManager : MonoBehaviour
     }
     private void Start() => CityCameraHandler.CenterCameraOnPoint(playerBuilding.transform.position);
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            playerBuilding.OnLevelUp();
-            OnLevelUp?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            OnQuiz();
-        }
-    }
-
 
     /// <summary>
     /// Save the score of this player
@@ -110,7 +97,7 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void IncreaseScore(int amount) => DBManager.Singleton.IncreaseScore(amount);
 
-    public void OnQuiz()
+    public void TriggerQuiz()
     {
         QuizAvailable = true;
         OnQuizReceived?.Invoke();

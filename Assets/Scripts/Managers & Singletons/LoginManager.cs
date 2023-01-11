@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
@@ -12,15 +11,26 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordField;
     [Space(5)]
     public Button submitButton;
+    public GameObject playButton;
+
+    private void OnEnable()
+    {
+        DBManager.OnLogin += OnUserLogin;
+    }
+    private void OnDestroy()
+    {
+        DBManager.OnLogin -= OnUserLogin;
+    }
 
     public void CallLogin()
     {
         if (DBManager.LoggedIn(nameField.text)) return;
 
-        _ = StartCoroutine(LoginCR(nameField.text, passwordField.text, true));
+        if (nameField.text.Length> 0 && passwordField.text.Length>0)
+            _ = StartCoroutine(LoginCR(nameField.text, passwordField.text));
     }
 
-    public static IEnumerator LoginCR(string username, string password, bool switchToMainMenu = false)
+    public static IEnumerator LoginCR(string username, string password)
     {
         List<IMultipartFormSection> formData = new()
             {
@@ -50,9 +60,7 @@ public class LoginManager : MonoBehaviour
                 score = int.Parse(splitText[3]);
 
             DBManager.Singleton.LogIn(username, classNumber, score, groupName);
-
-            if (switchToMainMenu)
-                SceneManager.LoadScene(0);
+            DBManager.OnLogin?.Invoke();
         }
         else
         {
@@ -63,4 +71,6 @@ public class LoginManager : MonoBehaviour
     public bool AreConditionsMet() => (nameField.text.Length >= 4 && passwordField.text.Length >= 8);
 
     public void VerifyInputs() => submitButton.interactable = AreConditionsMet();
+
+    private void OnUserLogin() => playButton.SetActive(true);
 }

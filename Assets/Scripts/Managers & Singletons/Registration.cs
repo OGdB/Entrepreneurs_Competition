@@ -1,10 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System.Collections;
-using UnityEngine.Networking;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Registration : MonoBehaviour
 {
@@ -15,12 +14,19 @@ public class Registration : MonoBehaviour
     [Space(5)]
     public Button submitButton;
 
+    public TMPro.TextMeshProUGUI errorText;
+    public GameObject registrationCanvas;
+    public GameObject loginCanvas;
+
     public void CallRegister()
     {
         if (VerifyClassInput(classField.text))
             _ = StartCoroutine(RegisterCR());
         else
-            print("Enter valid class number. For example: 1A");
+        {
+            errorText.SetText("Enter valid class number. For example: 1A");
+            errorText.gameObject.SetActive(true);
+        }
 
         IEnumerator RegisterCR()
         {
@@ -45,12 +51,20 @@ public class Registration : MonoBehaviour
                     
                     DBManager.Singleton.LogIn(nameField.text, classField.text, 0, groupField.text);
 
-                    SceneManager.LoadScene(0);
+                    registrationCanvas.SetActive(false);
+                    loginCanvas.SetActive(true);
+                    errorText.gameObject.SetActive(false);
+
+                    nameField.text = "";
+                    classField.text = "";
+                    groupField.text = "";
+                    passwordField.text = "";
                 }
                 else
                 {
-                    Debug.Log($"User creation failed!\n" +
-                        $"Error #{handler.text}");
+                    //Debug.Log(handler.text);
+                    errorText.SetText(handler.text);
+                    errorText.gameObject.SetActive(true);
                 }
             }
         }

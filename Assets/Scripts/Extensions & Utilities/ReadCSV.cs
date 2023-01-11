@@ -44,7 +44,7 @@ public class ReadCSV
         int amountOfQuestionsInDatabase = int.Parse(lines[0].Split(",")[questionCountColumnIndex]);  // the 14th cell of first row counts the amount of questions in the database.
         //Debug.Log($"Maximum int: {amountOfQuestionsInDatabase}");
 
-        if (amountOfQuestions >= amountOfQuestionsInDatabase)
+        if (amountOfQuestions > amountOfQuestionsInDatabase)
         {
             Debug.LogWarning("Asking for more questions than there are in the sheet!\n" +
                 "Setting amount of questions to maximum available");

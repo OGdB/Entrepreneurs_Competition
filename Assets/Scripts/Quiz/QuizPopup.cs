@@ -10,6 +10,9 @@ public class QuizPopup : MonoBehaviour
 
     private void OnEnable()
     {
+        quizIntroText.SetText($"{DBManager.Singleton.GroupName} " +
+            $"has a meeting with a big investor today!\r\nAre you ready to go?");
+
         GameManager.OnQuizReceived += OnQuizReceived;
 
         DBManager.OnPressedReady += OnReadyWasPressed;
@@ -25,6 +28,7 @@ public class QuizPopup : MonoBehaviour
 
     public void OnQuizReceived()
     {
+        GetComponent<AudioSource>().Play();
         PlayQuickPopUpAnimation();
     }
 

@@ -24,7 +24,7 @@ public class CompanyBuilding : MonoBehaviour
     {
         GetCurrentBuilding(GroupLevel);
 
-        GetComponent<Outline>().RecalculateBounds();
+        GetComponentInChildren<Outline>().RecalculateBounds();
         SetTextPosition();
 
         if (isPlayerBuilding)
@@ -54,7 +54,13 @@ public class CompanyBuilding : MonoBehaviour
         }
 
         currentBuilding = Instantiate(GameManager.Singleton.Order.GetBuilding(currentLevel), transform);
-        currentBuilding.transform.position = transform.position;
+        //currentBuilding.transform.localPosition = Vector3.zero;
+        GetComponentInChildren<Outline>().RecalculateBounds();
+
+        if (isPlayerBuilding)
+            GetComponentInChildren<Outline>().OutlineColor=  Color.green;
+
+
         buildingSpawned = true;
     }
 
@@ -74,7 +80,8 @@ public class CompanyBuilding : MonoBehaviour
         textTransform.GetComponent<Hover>().basePosition = textPos;
     }
 
-    public void AccentuateBuilding() => Accentuate.AccentuateObject(gameObject, 0.5f);
+    public void AccentuateBuilding() => Accentuate.AccentuateObject(gameObject, 0.6f);
+
     public void UnaccentuateBuilding() => Accentuate.UnAccentuateObject(gameObject);
 
     public void OnLevelUp()
@@ -83,21 +90,53 @@ public class CompanyBuilding : MonoBehaviour
 
         IEnumerator LevelUpAnimation()
         {
-            print("Start Level Up Notification / Draw Attention to Building.");
-
-            yield return new WaitForSeconds(2f);
-
-            print("Upgrade the building");
-
-            if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
+            if (isPlayerBuilding)
             {
-                groupLevel++;
-                GetCurrentBuilding(groupLevel);
-            }
-            else
-            {
-                print("Maximum building level reached!");
+                print("Start Level Up Notification / Draw Attention to Building.");
+
+                yield return new WaitForSeconds(2f);
+
+                print("Upgrade the building");
+
+                if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
+                {
+                    groupLevel++;
+                    GetCurrentBuilding(groupLevel);
+                    SetTextPosition();
+                    GetComponent<AudioSource>().Play();
+                    GetComponentInChildren<Outline>().enabled = true;
+                }
+                else
+                {
+                    print("Maximum building level reached!");
+                }
             }
         }
+    }
+
+    /// <summary>
+    /// Show info on this business
+    /// </summary>
+    internal void ShowBuildingInfo()
+    {
+        if (isPlayerBuilding)
+        {
+            BuildingInfoPopUp.SetPopUpText($"{DBManager.Singleton.GroupName}\n" +
+                $"Net Worth: {string.Format("{0:C}", DBManager.Singleton.Score)}\n" +
+                $"Business Level {DBManager.Singleton.Level}");
+        }
+        else
+        {
+            BuildingInfoPopUp.SetPopUpText("Apple\n" +
+    "Net Worth: $1,745,000.000\n" +
+    "Business Level 7");
+        }
+    }
+    /// <summary>
+    /// Hide info on this business
+    /// </summary>
+    internal void HideBuildingInfo()
+    {
+        BuildingInfoPopUp.HidePopUpText();
     }
 }

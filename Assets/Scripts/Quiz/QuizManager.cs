@@ -36,6 +36,8 @@ public class QuizManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI answersWrongText;
     [SerializeField]
+    private TextMeshProUGUI networthGainedText;
+    [SerializeField]
     private GameObject readyButton;
 
     private int answeredCorrect = 0;
@@ -224,12 +226,16 @@ public class QuizManager : MonoBehaviour
             int oldScore = DBManager.Singleton.Score;
             // Calculate score and increase in DBManager.
             int scoreIncrease = CalculateScore(scorePerAnswer: scorePerAnswer, amountOfCorrectAnswers: answeredCorrect);
+            scoreIncrease += 100000;
             DBManager.Singleton.IncreaseScore(scoreIncrease);  
 
             QuizTimer.OnTimerUp -= OnQuizFinished;
 
             answersCorrectText.SetText($"Answers Correct: {answeredCorrect}");
             answersWrongText.SetText($"Answers Wrong: {answeredWrong}");
+            networthGainedText.SetText($"Net worth gained: {string.Format("{0:C}", scoreIncrease)}");
+
+
             Camera.main.GetComponent<AudioListener>().enabled = false;
             SceneTransition.TransitionToScene("City", LoadSceneMode.Additive);
 
