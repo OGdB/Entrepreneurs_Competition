@@ -29,6 +29,11 @@ public class Tutorial : MonoBehaviour
         {
             _ = StartCoroutine(MainTutorial());
         }
+        else
+        {
+            string lastMessage = "This is all we have for the demo. Thank you for trying it out!";
+            _ = StartCoroutine(popUpHandler.PopUpCR(lastMessage, amountOfReadingTime, 2.5f));
+        }
     }
 
     public IEnumerator SetNewTutorialText(string newTutorialText)
