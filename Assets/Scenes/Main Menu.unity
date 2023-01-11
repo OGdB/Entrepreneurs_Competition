@@ -2250,7 +2250,7 @@ RectTransform:
   m_GameObject: {fileID: 583674177}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 45, y: 45, z: 45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1199285573}
@@ -2258,9 +2258,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -75.0314}
-  m_SizeDelta: {x: 8, y: 2}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -37.488953}
+  m_SizeDelta: {x: 423.52, y: 60}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &583674179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3169,8 +3169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239780b3b81f36b4bb070b75d53346ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoLogin: 1
-  instantlyToQuiz: 1
+  autoLogin: 0
+  instantlyToQuiz: 0
   instantlyToCity: 0
   instantlyToTestCity: 0
   playerDisplay: {fileID: 1224272202}

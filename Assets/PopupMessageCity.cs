@@ -13,8 +13,10 @@ public class PopupMessageCity : MonoBehaviour
         _ = StartCoroutine(PopUpCR(text, length));
     }
 
-    public IEnumerator PopUpCR(string text, float length)
+    public IEnumerator PopUpCR(string text, float length, float startDelay = 0f)
     {
+        yield return new WaitForSeconds(startDelay);
+
         popupText.text = text;
 
         float startTime = Time.time;
