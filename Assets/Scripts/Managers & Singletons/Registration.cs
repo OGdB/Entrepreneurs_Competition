@@ -38,34 +38,33 @@ public class Registration : MonoBehaviour
                 new MultipartFormDataSection(name: "password", data: passwordField.text)
             };
 
-            using (var request = UnityWebRequest.Post(DBManager.phpFolderURL + "register.php", formData))
+            using var request = UnityWebRequest.Post(DBManager.phpFolderURL + "register.php", formData);
+
+            DownloadHandlerBuffer handler = new();
+            request.downloadHandler = handler;
+
+            yield return request.SendWebRequest();
+
+            if (handler.text.StartsWith("0"))
             {
-                DownloadHandlerBuffer handler = new();
-                request.downloadHandler = handler;
+                Debug.Log("User created succesfully!");
 
-                yield return request.SendWebRequest();
+                DBManager.Singleton.LogIn(nameField.text, classField.text, 225000, groupField.text);
 
-                if (handler.text.StartsWith("0"))
-                {
-                    Debug.Log("User created succesfully!");
-                    
-                    DBManager.Singleton.LogIn(nameField.text, classField.text, 0, groupField.text);
+                registrationCanvas.SetActive(false);
+                loginCanvas.SetActive(true);
+                errorText.gameObject.SetActive(false);
 
-                    registrationCanvas.SetActive(false);
-                    loginCanvas.SetActive(true);
-                    errorText.gameObject.SetActive(false);
-
-                    nameField.text = "";
-                    classField.text = "";
-                    groupField.text = "";
-                    passwordField.text = "";
-                }
-                else
-                {
-                    //Debug.Log(handler.text);
-                    errorText.SetText(handler.text);
-                    errorText.gameObject.SetActive(true);
-                }
+                nameField.text = "";
+                classField.text = "";
+                groupField.text = "";
+                passwordField.text = "";
+            }
+            else
+            {
+                //Debug.Log(handler.text);
+                errorText.SetText(handler.text);
+                errorText.gameObject.SetActive(true);
             }
         }
     }

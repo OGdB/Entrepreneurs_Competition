@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class Mute : MonoBehaviour
 {
     public AudioSource musicSource;
+    public AudioSource musicSource2;
     public Image muteImage;
 
     public Color mutedColor;
@@ -13,13 +14,15 @@ public class Mute : MonoBehaviour
         if (musicSource.isPlaying)
         {
             musicSource.Pause();
-            print("Mute!");
+            musicSource2.Pause();
+            //print("Mute!");
             muteImage.color = mutedColor;
         }
         else
         {
             musicSource.UnPause();
-            print("UnMute!");
+            musicSource2.UnPause();
+            //print("UnMute!");
 
             muteImage.color = Color.white;
         }

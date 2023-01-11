@@ -16,10 +16,10 @@ public class DBManager : MonoBehaviour
     public string GroupName = null;
     public int PreviousScore = -1;
 
-    public string otherRandomGroupName = "SpaceX";
+    public string otherRandomGroupName = "Apple";
     public int OldScore { get; private set; } = -1;
     public int Score { get; private set; } = -1;
-    public int Level { get; private set; } = 6;
+    public int Level { get; set; } = 6;
 
     public delegate void Login();
     public static Login OnLogin;
@@ -69,18 +69,6 @@ public class DBManager : MonoBehaviour
     {
         if (Singleton == gameObject)
             Singleton = null;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-         Application.Quit();
-#endif    
-        }
     }
 
     public void LogIn(string name, string classNumber, int score, string groupName = default)

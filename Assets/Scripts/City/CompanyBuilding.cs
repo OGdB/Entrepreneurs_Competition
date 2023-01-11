@@ -6,7 +6,6 @@ public class CompanyBuilding : MonoBehaviour
 {
     [SerializeField]
     private Transform textTransform;
-    private Vector3 textStartPos;
     public int GroupLevel { get => groupLevel; }
 
     [SerializeField]
@@ -19,20 +18,16 @@ public class CompanyBuilding : MonoBehaviour
     public bool isPlayerBuilding = false;
 
 
-    private void Awake() => textStartPos = textTransform.position;
     private void Start()
     {
         GetCurrentBuilding(GroupLevel);
-
         GetComponentInChildren<Outline>().RecalculateBounds();
         SetTextPosition();
 
         if (isPlayerBuilding)
             textTransform.GetComponent<TMPro.TextMeshPro>().SetText(DBManager.Singleton.GroupName);
         else
-        {
             textTransform.GetComponent<TMPro.TextMeshPro>().SetText(DBManager.Singleton.otherRandomGroupName);
-        }
     }
     private void OnEnable()
     {
@@ -66,18 +61,22 @@ public class CompanyBuilding : MonoBehaviour
 
     private void SetTextPosition()
     {
-        MeshRenderer[] renderer = transform.GetComponentsInChildren<MeshRenderer>();
-        float totalBuildingSize = 0f;
-        for (int i = 0; i < renderer.Length; i++)
+        _ = StartCoroutine(SetTextDelay());
+        IEnumerator SetTextDelay()
         {
-            MeshRenderer buildingPart = renderer[i];
-            totalBuildingSize += buildingPart.bounds.size.y;
-        }
+            yield return new WaitForFixedUpdate();
+            Renderer[] renderer = transform.GetComponentsInChildren<Renderer>();
+            float totalBuildingSize = 0f;
+            for (int i = 0; i < renderer.Length; i++)
+            {
+                Renderer buildingPart = renderer[i];
+                totalBuildingSize += buildingPart.bounds.size.y;
+            }
 
-        Vector3 textPos = textStartPos;
-        textPos.y += totalBuildingSize;
-        textTransform.transform.position = textPos;
-        textTransform.GetComponent<Hover>().basePosition = textPos;
+            Vector3 textPos = new(transform.localPosition.x, totalBuildingSize, transform.localPosition.z);
+            textTransform.transform.localPosition = textPos;
+            textTransform.GetComponent<Hover>().basePosition = textPos;
+        }
     }
 
     public void AccentuateBuilding() => Accentuate.AccentuateObject(gameObject, 0.6f);
@@ -92,23 +91,23 @@ public class CompanyBuilding : MonoBehaviour
         {
             if (isPlayerBuilding)
             {
-                print("Start Level Up Notification / Draw Attention to Building.");
+                //print("Start Level Up Notification / Draw Attention to Building.");
 
                 yield return new WaitForSeconds(2f);
 
-                print("Upgrade the building");
+                //print("Upgrade the building");
 
                 if (groupLevel < GameManager.Singleton.Order.GetOrderLength() - 1)
                 {
                     groupLevel++;
                     GetCurrentBuilding(groupLevel);
-                    SetTextPosition();
                     GetComponent<AudioSource>().Play();
                     GetComponentInChildren<Outline>().enabled = true;
+                    SetTextPosition();
                 }
                 else
                 {
-                    print("Maximum building level reached!");
+                    //print("Maximum building level reached!");
                 }
             }
         }

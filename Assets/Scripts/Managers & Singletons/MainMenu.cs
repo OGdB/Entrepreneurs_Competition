@@ -66,12 +66,11 @@ public class MainMenu : MonoBehaviour
         }
         else
             playerDisplay.SetText("No user logged in");
+
+        playButton.gameObject.SetActive(DBManager.Singleton.Users.Count > 0);
     }
 
-    public void GoToRegisterScene() => SceneManager.LoadScene("Register Menu");
-    public void GoToLoginScene() => SceneManager.LoadScene("Login Menu");
     public void GoToGameScene() => SceneTransition.TransitionToScene("City");
-    public void GoToLeaderboard() => SceneManager.LoadScene("Leaderboard");
 
     public void ExitGame()
     {
