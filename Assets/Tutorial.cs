@@ -63,6 +63,7 @@ public class Tutorial : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
 
+        hasGoneThroughTutorial = true;
         GameManager.Singleton.TriggerQuiz();
     }
 

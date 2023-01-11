@@ -3146,7 +3146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoLogin: 1
-  instantlyToQuiz: 0
+  instantlyToQuiz: 1
   instantlyToCity: 0
   instantlyToTestCity: 0
   playerDisplay: {fileID: 1224272202}

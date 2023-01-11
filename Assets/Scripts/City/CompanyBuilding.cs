@@ -18,13 +18,16 @@ public class CompanyBuilding : MonoBehaviour
 
     public bool isPlayerBuilding = false;
 
+    [SerializeField]
+    private AudioClip levelupMusic;
+
 
     private void Awake() => textStartPos = textTransform.position;
     private void Start()
     {
         GetCurrentBuilding(GroupLevel);
 
-        GetComponent<Outline>().RecalculateBounds();
+        GetComponentInChildren<Outline>().RecalculateBounds();
         SetTextPosition();
 
         if (isPlayerBuilding)
@@ -55,6 +58,8 @@ public class CompanyBuilding : MonoBehaviour
 
         currentBuilding = Instantiate(GameManager.Singleton.Order.GetBuilding(currentLevel), transform);
         //currentBuilding.transform.localPosition = Vector3.zero;
+        GetComponentInChildren<Outline>().RecalculateBounds();
+
         buildingSpawned = true;
     }
 
