@@ -140,7 +140,7 @@ public class QuizManager : MonoBehaviour
     {
         AmountOfConfirmedVotes++;
 
-        print($"{DBManager.Singleton.currentUser.Name} voted for {quizQuestionVariant.GetAnsweredAsPrettyString()}");
+        //print($"{DBManager.Singleton.currentUser.Name} voted for {quizQuestionVariant.GetAnsweredAsPrettyString()}");
 
         // Was the vote correct?
         if (quizQuestionVariant.AllAnswersCorrect)
@@ -153,7 +153,7 @@ public class QuizManager : MonoBehaviour
         {
             // If more than half of the group voted for the correct answer, they get points.
             float percentageVotedCorrect = votedCorrectly / (float)AmountOfConfirmedVotes;
-            print($"Percentage voted correctly = {percentageVotedCorrect * 100 }%");
+            //print($"Percentage voted correctly = {percentageVotedCorrect * 100 }%");
 
             if (percentageVotedCorrect >= 0.5f)
             {
@@ -227,7 +227,8 @@ public class QuizManager : MonoBehaviour
             // Calculate score and increase in DBManager.
             int scoreIncrease = CalculateScore(scorePerAnswer: scorePerAnswer, amountOfCorrectAnswers: answeredCorrect);
             scoreIncrease += 100000;
-            DBManager.Singleton.IncreaseScore(scoreIncrease);  
+            DBManager.Singleton.IncreaseScore(scoreIncrease);
+            DBManager.Singleton.Level++;
 
             QuizTimer.OnTimerUp -= OnQuizFinished;
 
